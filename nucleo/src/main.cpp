@@ -24,7 +24,7 @@ int main(){
     init_fdc();
     init_pwm();
     // Traitements périodiques nécessaires :
-    buffer_traitement_periodique.attach(&);
+    buffer_traitement_periodique.attach(&lectur);
     odometrie_traitement_periodique.attach(&);
 
     // chronometer.start();

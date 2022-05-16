@@ -357,3 +357,9 @@ void envoie_afficheur(bool arret, uint8_t message, bool recopie)
 
     buffer_envoie[0] = 0; // on vide le buffer
 }
+
+void lecture_arduinos()
+{
+    lecture_afficheur();
+    lecture_bras();
+}
