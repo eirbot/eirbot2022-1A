@@ -45,12 +45,10 @@
 #define _SCL PA_8 // D7
 
 // Capteur de distance : Analogiques
-#define _dist_avant_gauche PC_0   // A5
-#define _dist_avant_droit PB_0    // A3
-#define _dist_arriere_gauche PC_1 // A4
-#define _dist_arriere_droit PC_4  // en face de D2
-#define _dist_gauche PC_2         // en face de A4
-#define _dist_droit PC_3          // en face de A5
+#define _dist_avant_gauche PC_2   // en face de A4
+#define _dist_avant_droit PC_4    // en face de D2 
+#define _dist_arriere_gauche PC_0 // A5
+#define _dist_arriere_droit PC_1  // A4
 
 // *****************************************************************************************************
 
@@ -94,17 +92,16 @@ extern AnalogIn dist_avant_gauche;
 extern AnalogIn dist_avant_droit;
 extern AnalogIn dist_arriere_gauche;
 extern AnalogIn dist_arriere_droit;
-extern AnalogIn dist_gauche;
-extern AnalogIn dist_droit;
-// *****************************************************************************************************
 
+// *****************************************************************************************************
 /***************************************
  ************* Constantes **************
  ****************************************/
 // Périodes 
 const uint16_t periode_pwm = 25; // en us
-const uint32_t periode_encoder = 100; // en us
+const uint32_t periode_odometrie = 100; // en us
 const uint32_t periode_asserv = 1e3;  // en us
+const uint32_t periode_serie = 1e5;  // en us
 
 //asserv
 const float Kp = 0.0401;
@@ -134,6 +131,7 @@ const float d_theta = 360.0 / (float)(tick_encoder);
 extern volatile bool fdc[5]; // avg avd ard arg gal
 extern volatile bool dist[4]; // avg avd ard arg 
 extern volatile bool urgence_bouton;
+extern volatile bool asserv_arret;
 
 // odometrie / asserv
 extern volatile int32_t encoder[2]; // tick des encoder (gauche droite)
@@ -147,17 +145,28 @@ extern volatile float beta; // angle du robot par rapport au bord bas
 extern char buffer_bras[buffer_size];
 extern char buffer_afficheur[buffer_size];
 extern char buffer_envoie[1];
-extern char reception; // pour l'analyse des message 
+extern volatile char reception; // pour l'analyse des message 
 // variable pour les états communiqués
-extern char equipe;
-extern bool capt_distance;
-extern bool arbitre;
-extern bool afficheur_arret;
-extern bool bras_etat;
-extern bool bras_arret;
+extern volatile char equipe;
+extern volatile bool capt_distance;
+extern volatile bool arbitre;
+extern volatile bool afficheur_arret;
+extern volatile bool bras_etat;
+extern volatile bool bras_arret;
 
 // *****************************************************************************************************
+/***************************************
+ ************* Temporalité du code *****
+ ****************************************/
+// Chronomètre 
+extern Timer chronometre; // chronomètre pour le départ
 
+// Traitement périodique 
+extern Ticker odometrie_traitement_periodique;
+extern Ticker asserv_traitement_periodique;
+extern Ticker serie_traitement_periodique;
+extern Ticker securite_traitement_periodique;
+// *****************************************************************************************************
 /***************************************
  ************* Fonctions ***************
  ****************************************/

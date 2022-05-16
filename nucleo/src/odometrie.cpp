@@ -47,4 +47,9 @@ void calcul_pos_xy()
     }
 }
 
+void odometrie_periodique()
+{
+    calcul_encoder();
+    calcul_pos_xy();
+}
 #endif

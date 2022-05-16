@@ -19,6 +19,6 @@ void fdc_gal_0();
 
 
 
-void fonction_periodique();
+void securite_periodique();
 
 #endif 

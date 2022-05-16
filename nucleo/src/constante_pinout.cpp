@@ -39,13 +39,12 @@ AnalogIn dist_avant_gauche(_dist_avant_gauche);
 AnalogIn dist_avant_droit(_dist_avant_droit);
 AnalogIn dist_arriere_gauche(_dist_arriere_gauche);
 AnalogIn dist_arriere_droit(_dist_arriere_droit);
-AnalogIn dist_gauche(_dist_gauche);
-AnalogIn dist_droit(_dist_droit);
 
 // Variables globales :
 volatile bool fdc[5];  // avg avd ard arg gal
-volatile bool dist[6]; // avg avd d ard arg g
+volatile bool dist[4]; // avg avd d ard arg g
 volatile bool urgence_bouton;
+volatile bool asserv_arret;
 volatile int32_t encoder[2];       // tick des encoder (gauche droite)
 volatile float encoder_vitesse[2]; // vitesse des encoder (gauche droite)
 volatile float pos_xy[2];          // position actuelle en xy
@@ -57,13 +56,22 @@ volatile float beta;               // angle du robot par rapport au bord bas
 char buffer_bras[buffer_size];
 char buffer_afficheur[buffer_size];
 char buffer_envoie[1];
-char reception;
-char equipe;
-bool capt_distance;
-bool arbitre;
-bool afficheur_arret;
-bool bras_etat;
-bool bras_arret;
+volatile char reception;
+volatile char equipe;
+volatile bool capt_distance;
+volatile bool arbitre;
+volatile bool afficheur_arret;
+volatile bool bras_etat;
+volatile bool bras_arret;
+
+// Chronomètre 
+Timer chronometer; // chronomètre pour le départ
+
+// Traitement périodique 
+Ticker odometrie_traitement_periodique;
+Ticker asserv_traitement_periodique;
+Ticker serie_traitement_periodique;
+Ticker securite_traitement_periodique;
 
 
 void init_globale()
@@ -91,6 +99,7 @@ void init_globale()
     
     //sécurité
     urgence_bouton = 0;
+    asserv_arret = 0;
     bras_arret = 0;
     afficheur_arret = 0;
 

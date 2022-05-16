@@ -9,9 +9,10 @@ void envoie_bras(char envoie);
 
 // Afficheur :
 void lecture_afficheur(bool debug);
-void envoie_afficheur(bool arret, uint8_t message, bool recopie);
+void envoie_afficheur(bool arret, bool recopie, uint8_t message);
 
 
 // regroupement
 void lecture_arduinos();
+
 #endif

@@ -1,64 +1,64 @@
-#include "conrepliquente_pinout.hpp"
+#include "constante_pinout.hpp"
 
 #include "communication.hpp"
 
 void analyse_afficheur(bool debug)
 {
-    sscanf(buffer_afficheur, "%d", &reception);
+    sscanf(buffer_afficheur, "%c", &reception);
     switch (reception)
     {
     case 0:
         afficheur_arret = 1;
         equipe = 0; // cas d'erreur
-        capt_direpliquence = 0;
+        capt_distance = 0;
         arbitre = 0;
         break;
     case 1:
         afficheur_arret = 0;
         equipe = 'V';
-        capt_direpliquence = 0;
+        capt_distance = 0;
         arbitre = 0;
         break;
     case 2:
         afficheur_arret = 0;
         equipe = 'V';
-        capt_direpliquence = 0;
+        capt_distance = 0;
         arbitre = 1;
         break;
     case 3:
         afficheur_arret = 0;
         equipe = 'V';
-        capt_direpliquence = 1;
+        capt_distance = 1;
         arbitre = 0;
         break;
     case 4:
         afficheur_arret = 0;
         equipe = 'V';
-        capt_direpliquence = 1;
+        capt_distance = 1;
         arbitre = 1;
         break;
     case 5:
         afficheur_arret = 0;
         equipe = 'J';
-        capt_direpliquence = 0;
+        capt_distance = 0;
         arbitre = 0;
         break;
     case 6:
         afficheur_arret = 0;
         equipe = 'J';
-        capt_direpliquence = 0;
+        capt_distance = 0;
         arbitre = 1;
         break;
     case 7:
         afficheur_arret = 0;
         equipe = 'J';
-        capt_direpliquence = 1;
+        capt_distance = 1;
         arbitre = 0;
         break;
     case 8:
         afficheur_arret = 0;
         equipe = 'J';
-        capt_direpliquence = 1;
+        capt_distance = 1;
         arbitre = 1;
         break;
 
@@ -71,73 +71,90 @@ void analyse_afficheur(bool debug)
     }
 }
 
+// char analyse_inverse_afficheur(bool arret, char equipe, bool capt_distance, bool arbitre)
+// {
+//     char nb_envoye;
+//     if (arret == 0)
+//     {
+//         nb_envoye = 0;
+//     }
+//     else
+//     {
+//         if (equipe == 'V')
+//         {
+//             if (capt_distance == 0)
+//             {
+//                 if (arbitre == 0)
+//                 {
+//                     nb_envoye = 1;
+//                 }
+//                 else
+//                 {
+//                     nb_envoye = 2;
+//                 }
+//             }
+//             else if (capt_distance == 1)
+//             {
+//                 if (arbitre == 0)
+//                 {
+//                     nb_envoye = 3;
+//                 }
+//                 else
+//                 {
+//                     nb_envoye = 4;
+//                 }
+//             }
+//         }
+//         else if (equipe == 'J')
+//         {
+//             if (capt_distance == 0)
+//             {
+//                 if (arbitre == 0)
+//                 {
+//                     nb_envoye = 5;
+//                 }
+//                 else
+//                 {
+//                     nb_envoye = 6;
+//                 }
+//             }
+//             else if (capt_distance == 1)
+//             {
+//                 if (arbitre == 0)
+//                 {
+//                     nb_envoye = 7;
+//                 }
+//                 else
+//                 {
+//                     nb_envoye = 8;
+//                 }
+//             }
+//         }
+//     }
+
+//     return nb_envoye;
+// }
 char analyse_inverse_afficheur(bool arret, char equipe, bool capt_distance, bool arbitre)
 {
-    char nb_envoye;
-    if (arret == 0)
+    char nb_envoie = 0;
+    if (arret == 1)
     {
-        nb_envoye = 0;
+        nb_envoie = 0;
     }
-    else
+    else if (arret == 0)
     {
-        if (equipe == 'V')
+        nb_envoie = 1 + arbitre + capt_distance*2 ;
+        if (equipe == 'J')
         {
-            if (capt_distance == 0)
-            {
-                if (arbitre == 0)
-                {
-                    nb_envoye = 1;
-                }
-                else
-                {
-                    nb_envoye = 2;
-                }
-            }
-            else
-            {
-                if (arbitre == 0)
-                {
-                    nb_envoye = 3;
-                }
-                else
-                {
-                    nb_envoye = 4;
-                }
-            }
-        }
-        else if (equipe == 'J')
-        {
-            if (capt_distance == 0)
-            {
-                if (arbitre == 0)
-                {
-                    nb_envoye = 5;
-                }
-                else
-                {
-                    nb_envoye = 6;
-                }
-            }
-            else
-            {
-                if (arbitre == 0)
-                {
-                    nb_envoye = 7;
-                }
-                else
-                {
-                    nb_envoye = 8;
-                }
-            }
+            nb_envoie += 4;
         }
     }
-
-    return nb_envoye;
+    return nb_envoie;
 }
 
 void analyse_bras(bool debug)
 {
-    sscanf(buffer_afficheur, "%d", &reception);
+    sscanf(buffer_afficheur, "%c", &reception);
     switch (reception)
     {
     case 0:
@@ -158,7 +175,7 @@ void analyse_bras(bool debug)
     }
     if (debug)
     {
-        printf("%d\n", etat_bras);
+        printf("%d\n", bras_etat);
     }
 }
 
@@ -167,7 +184,7 @@ void lecture_bras(bool debug)
     if (bras.readable())
     {
         bras.read(buffer_bras, buffer_size);
-        analyse_bras();
+        analyse_bras(0);
         if (debug)
         {
             printf("%s\n", buffer_bras);
@@ -186,7 +203,7 @@ void lecture_afficheur(bool debug)
     if (afficheur.readable())
     {
         afficheur.read(buffer_afficheur, buffer_size);
-        analyse_afficheur();
+        analyse_afficheur(1);
         if (debug)
         {
             printf("%s\n", buffer_afficheur);
@@ -202,7 +219,7 @@ void lecture_afficheur(bool debug)
 
 void envoie_bras(bool arret, uint8_t processus_bras, bool replique, bool pompe_ev)
 {
-    char nb_envoi;
+    char nb_envoie = 0;
     if (arret == 1)
     {
         nb_envoie = 0;
@@ -299,7 +316,7 @@ void envoie_bras(bool arret, uint8_t processus_bras, bool replique, bool pompe_e
             }
             else
             {
-                if (pompe_ev == '0')
+                if (pompe_ev == 0)
                 {
                     nb_envoie = 15;
                 }
@@ -311,7 +328,7 @@ void envoie_bras(bool arret, uint8_t processus_bras, bool replique, bool pompe_e
         }
     }
 
-    sprintf(buffer_envoie, "%c", nb_envoie);
+    buffer_envoie[0] = nb_envoie;
     if (afficheur.writable())
     {
         afficheur.write(buffer_envoie, 1);
@@ -320,19 +337,20 @@ void envoie_bras(bool arret, uint8_t processus_bras, bool replique, bool pompe_e
     buffer_envoie[0] = 0; // on vide le buffer
 }
 
-void envoie_afficheur(bool arret, uint8_t message, bool recopie)
+void envoie_afficheur(bool arret, bool recopie, uint8_t message)
 {
+    char nb_envoie = 0;
     if (arret == 1)
     {
         nb_envoie = 0;
     }
-    else
+    else if (arret == 0)
     {
         if (recopie == 1)
         {
             nb_envoie = analyse_inverse_afficheur(afficheur_arret, equipe, capt_distance, arbitre);
         }
-        else
+        else if (recopie == 0)
         {
             if (message == 0)
             {
@@ -349,7 +367,10 @@ void envoie_afficheur(bool arret, uint8_t message, bool recopie)
         }
     }
     
-    sprintf(buffer_envoie, "%c", nb_envoie);
+    printf("numero_fct : %d\n", nb_envoie);
+
+    // sprintf(buffer_envoie, "%d", nb_envoie);
+    buffer_envoie[0] = nb_envoie;
     if (afficheur.writable())
     {
         afficheur.write(buffer_envoie, 1);
@@ -360,6 +381,6 @@ void envoie_afficheur(bool arret, uint8_t message, bool recopie)
 
 void lecture_arduinos()
 {
-    lecture_afficheur();
-    lecture_bras();
+    lecture_afficheur(0);
+    lecture_bras(0);
 }

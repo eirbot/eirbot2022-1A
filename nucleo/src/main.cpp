@@ -1,19 +1,14 @@
 #include <mbed.h>
 #include "encoder.h"
 #include "constante_pinout.hpp"
+
 #include "asserv.hpp"
 #include "odometrie.hpp"
 #include "securite.hpp"
 #include "deplacement.hpp"
+#include "communication.hpp"
 
-// Chronomètre 
-Timer chronometer; // chronomètre pour le départ
 
-// Traitement périodique 
-Ticker odometrie_traitement_periodique;
-Ticker asserv_traitement_periodique;
-Ticker serie_traitement_periodique;
-Ticker securite_traitement_periodique;
 
 DigitalOut led(LED1); // led sur la nucleo
 BufferedSerial pc(USBTX,USBRX,9600); // liaison avec le pc
@@ -23,9 +18,10 @@ int main(){
     init_globale();
     init_fdc();
     init_pwm();
+
     // Traitements périodiques nécessaires :
-    buffer_traitement_periodique.attach(&lectur);
-    odometrie_traitement_periodique.attach(&);
+    serie_traitement_periodique.attach_us(&lecture_arduinos, periode_serie);
+    odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
 
     // chronometer.start();
     
@@ -36,9 +32,7 @@ int main(){
     // // Attachement des traitement périodique :
     // odometrie_traitement_periodique.attach(&);
     // asserv_traitement_periodique.attach(&);
-    
-    
-    // securite_traitement_periodique.detach(); 
+
     // while (chronometer.elapsed_time().count() < (int64_t) (95*1e6))
     // {
 
@@ -61,5 +55,9 @@ int main(){
         {
             led.write(1);
         }
+
+        // printf("%d %c %d %d\n", afficheur_arret, equipe, capt_distance, arbitre);
+        envoie_afficheur(0, 1, 0);
+        wait_us(1e6);
     }
 }

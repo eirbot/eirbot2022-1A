@@ -24,7 +24,7 @@ void lecture_GP2()
     }
 }
 
-void lecture_fdc(uint8_t numero);
+void lecture_fdc(uint8_t numero)
 {
     if (numero > 5)
     {
@@ -34,22 +34,22 @@ void lecture_fdc(uint8_t numero);
     switch (numero)
     {
     case 0:
-        fdc_mesure[0] = fdc_avant_droit.read();
+        fdc[0] = fdc_avant_droit.read();
         break;
     case 1:
-        fdc_mesure[1] = fdc_avant_gauche.read();
+        fdc[1] = fdc_avant_gauche.read();
         break;
     case 2:
-        fdc_mesure[2] = fdc_arriere_gauche.read();
+        fdc[2] = fdc_arriere_gauche.read();
         break;
     case 3:
-        fdc_mesure[3] = fdc_arriere_droit.read();
+        fdc[3] = fdc_arriere_droit.read();
         break;
     case 4:
-        fdc_mesure[4] = fdc_galerie.read();
+        fdc[4] = fdc_galerie.read();
         break;
     default:
-        fdc_mesure[4] = fdc_galerie.read();
+        fdc[4] = fdc_galerie.read();
         break;
     }
 }
@@ -104,14 +104,20 @@ void fdc_gal_0()
     fdc[4] = 0;
 }
 
-
+void asserv_arret_flag()
+{
+    if (asserv_arret == 1)
+    {
+        asserv_traitement_periodique.detach();
+    }
+}
 // *****************************************************************************************************
 
 /***************************************
  ************* Périodiquement **********
  ****************************************/
 
-void fonction_periodique()
+void securite_periodique()
 {
     lecture_GP2();
 }
