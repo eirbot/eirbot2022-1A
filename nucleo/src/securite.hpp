@@ -1,7 +1,9 @@
 #ifndef securite_h
 #define securite_h
 
-void lecture_GP2();
+void lecture_GP2(); // mise à jour de la variable dist[4] pour les capteur de distance
+void lecture_fdc(uint8_t numero);
+
 
 // fonctions d'interruption :
 void fdc_avg_1();
@@ -14,5 +16,9 @@ void fdc_avd_0();
 void fdc_ard_0();
 void fdc_arg_0();
 void fdc_gal_0();
+
+
+
+void fonction_periodique();
 
 #endif 

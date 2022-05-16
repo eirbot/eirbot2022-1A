@@ -101,13 +101,21 @@ extern AnalogIn dist_droit;
 /***************************************
  ************* Constantes **************
  ****************************************/
+// Périodes 
 const uint16_t periode_pwm = 25; // en us
 const uint32_t periode_encoder = 100; // en us
 const uint32_t periode_asserv = 1e3;  // en us
+
+//asserv
 const float Kp = 0.0401;
 const float Ki = 0.425;
-const float dist_seuil = 0.6; // à ajuster
+
+// sécurité
+const float dist_seuil = 0.6; // à vérifier
+
+// port série
 const uint16_t buffer_size = 32;
+const uint16_t baud_rate = 9600;
 
 // Dimension robot :
 const float entre_axe = 38.24; // en cm
@@ -117,11 +125,16 @@ const uint16_t tick_encoder = 1024;
 const float encoder_diametre = 2.984; // en cm
 const float d_theta = 360.0 / (float)(tick_encoder);
 
-// Variables globales :
-// booléens
+// *****************************************************************************************************
+
+/****************************************
+ ************* Var Globales *************
+ ****************************************/
+// sécurité
 extern volatile bool fdc[5]; // avg avd ard arg gal
-extern volatile bool dist[6]; // avg avd d ard arg g
+extern volatile bool dist[4]; // avg avd ard arg 
 extern volatile bool urgence_bouton;
+
 // odometrie / asserv
 extern volatile int32_t encoder[2]; // tick des encoder (gauche droite)
 extern volatile float encoder_vitesse[2]; // vitesse des encoder (gauche droite)
@@ -130,11 +143,27 @@ extern volatile float dest_xy[2]; // destination voulu en xy
 extern volatile float dest_dalpha[2]; // distance et angle pour aller à dest_xy
 extern volatile float beta; // angle du robot par rapport au bord bas
 
-// Variable pour les port série :
-extern char buffer_bras[32];
-extern char buffer_afficheur[32];
-extern char buffer_envoie[32];
+// ports série :
+extern char buffer_bras[buffer_size];
+extern char buffer_afficheur[buffer_size];
+extern char buffer_envoie[1];
+extern char reception; // pour l'analyse des message 
+// variable pour les états communiqués
+extern char equipe;
+extern bool capt_distance;
+extern bool arbitre;
+extern bool afficheur_arret;
+extern bool bras_etat;
+extern bool bras_arret;
+
+// *****************************************************************************************************
+
+/***************************************
+ ************* Fonctions ***************
+ ****************************************/
 
 void init_globale();
+void init_pwm();
+void init_fdc();
 
 #endif

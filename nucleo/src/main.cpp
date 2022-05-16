@@ -13,7 +13,7 @@ Timer chronometer; // chronomètre pour le départ
 Ticker odometrie_traitement_periodique;
 Ticker asserv_traitement_periodique;
 Ticker serie_traitement_periodique;
-Ticker securite_traitement_periodique; 
+Ticker securite_traitement_periodique;
 
 DigitalOut led(LED1); // led sur la nucleo
 BufferedSerial pc(USBTX,USBRX,9600); // liaison avec le pc
@@ -21,27 +21,45 @@ BufferedSerial pc(USBTX,USBRX,9600); // liaison avec le pc
 int main(){
     printf("Démarrage du programme\n");
     init_globale();
-    chronometer.start();
-    securite_traitement_periodique.attach(&lecture_GP2, 10ms);
-    while (chronometer.elapsed_time().count() < (int64_t) (5*1e6))
-    {
-        printf("dist : %d\n", dist[0]);
-    }
-    // attachement des traitement périodique :
+    init_fdc();
+    init_pwm();
+    // Traitements périodiques nécessaires :
+    buffer_traitement_periodique.attach(&);
+    odometrie_traitement_periodique.attach(&);
+
+    // chronometer.start();
+    
+    // while (chronometer.elapsed_time().count() < (int64_t) (5*1e6))
+    // {
+    //     if (arret_bras == 1 || arret_afficheur == 1 || arret  )
+    // }
+    // // Attachement des traitement périodique :
     // odometrie_traitement_periodique.attach(&);
     // asserv_traitement_periodique.attach(&);
-    // buffer_traitement_periodique.attach(&);
     
-    securite_traitement_periodique.detach(); 
-    while (chronometer.elapsed_time().count() < (int64_t) (95*1e6))
-    {
+    
+    // securite_traitement_periodique.detach(); 
+    // while (chronometer.elapsed_time().count() < (int64_t) (95*1e6))
+    // {
 
-        printf("dist : %d\n", dist[0]);
-    }
-    chronometer.stop();
+        
+    // }
+    // chronometer.stop();
 
     while (1)
     {
-        
+        bool condition = 0;
+        for (int k=0 ; k < 5 ; k++)
+        {
+            condition |= fdc[k];
+        }
+        for (int k=0 ; k < 4 ; k++)
+        {
+            condition |= dist[k];
+        }
+        if (condition == true)
+        {
+            led.write(1);
+        }
     }
 }
