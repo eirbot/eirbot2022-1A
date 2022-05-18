@@ -4,8 +4,7 @@
 
 #include "asserv.hpp"
 
-#ifndef asserv_h
-#define asserv_h
+
 
 float PI(float erreur)
 {
@@ -58,5 +57,3 @@ void calcul_vitesse()
     encoder_vitesse[0] = vitesse(0);
     encoder_vitesse[1] = vitesse(1);
 }
-
-#endif
