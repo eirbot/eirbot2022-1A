@@ -102,6 +102,7 @@ const uint16_t periode_pwm = 25; // en us
 const uint32_t periode_odometrie = 100; // en us
 const uint32_t periode_asserv = 1e3;  // en us
 const uint32_t periode_serie = 1e5;  // en us
+const uint32_t periode_securite = 1000; // en us
 
 //asserv
 const float Kp = 0.0401;

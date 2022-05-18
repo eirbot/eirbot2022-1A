@@ -67,7 +67,7 @@ void analyse_afficheur(bool debug)
     }
     if (debug)
     {
-        printf("%d\n", reception);
+        printf("reception afficheur : %d\n", reception);
     }
 }
 
@@ -206,7 +206,7 @@ void lecture_afficheur(bool debug)
         analyse_afficheur(1);
         if (debug)
         {
-            printf("%s\n", buffer_afficheur);
+            printf("buffer : %s\n", buffer_afficheur);
         }
         for (int k = 0; k < buffer_size; k++)
             buffer_afficheur[k] = 0; // on vide le buffer
@@ -367,13 +367,14 @@ void envoie_afficheur(bool arret, bool recopie, uint8_t message)
         }
     }
     
-    printf("numero_fct : %d\n", nb_envoie);
+    
 
     // sprintf(buffer_envoie, "%d", nb_envoie);
     buffer_envoie[0] = nb_envoie;
     if (afficheur.writable())
     {
         afficheur.write(buffer_envoie, 1);
+        printf("numero_fct : %d\n", nb_envoie);
     }
 
     buffer_envoie[0] = 0; // on vide le buffer
