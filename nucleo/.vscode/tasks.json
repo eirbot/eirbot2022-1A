@@ -1,0 +1,36 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: arm-none-eabi-gcc.exe générer le fichier actif",
+            "command": "C:/Users/leova/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "-mcpu=cortex-m4",
+                "-mfloat-abi=softfp",
+                "-mfpu=fpv4-sp-d16",
+                "-mthumb",
+                "-iprefix",
+                "C:/Users/leova/PLATFO~1/packages/FRAMEW~1",
+                "@c:/Users/leova/Documents/EIRBOT/La coupe/eirbot2022-1A/nucleo/.pio/build/nucleo_f446re/longinc-76bfce008442bba18542785a41ec20ad",
+                ""
+            ],
+            "options": {
+                "cwd": "C:/Users/leova/.platformio/packages/toolchain-gccarmnoneeabi/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Tâche générée par le débogueur."
+        }
+    ],
+    "version": "2.0.0"
+}

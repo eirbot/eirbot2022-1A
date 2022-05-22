@@ -4,6 +4,7 @@
 #define constante_pinout_h
 
 #include <mbed.h>
+#include <cmath>
 #include "encoder.h"
 #include "constante_pinout.hpp"
 #include "securite.hpp"
@@ -60,8 +61,8 @@
  ****************************************/
 
 // Encodeurs
-extern Encoder encodeur_droit;
-extern Encoder encodeur_gauche;
+extern Encoder encoder_droit;
+extern Encoder encoder_gauche;
 
 // Moteur droit
 extern PwmOut pwm_droit;
@@ -102,12 +103,12 @@ extern AnalogIn dist_arriere_droit;
  ****************************************/
 // Périodes 
 const uint16_t periode_pwm = 25; // en us
-const uint32_t periode_odometrie = 100; // en us
+const uint32_t periode_odometrie = 1e3; // en us
 const uint32_t periode_asserv = 1e3;  // en us
 const uint32_t periode_serie = 1e5;  // en us
 const uint32_t periode_securite = 1000; // en us
 
-//asserv
+// asserv
 const float Kp = 0.0401;
 const float Ki = 0.425;
 
@@ -119,12 +120,13 @@ const uint16_t buffer_size = 32;
 const uint16_t baud_rate = 9600;
 
 // Dimension robot :
-const float entre_axe = 38.24; // en cm
+const float entre_axe = 382.4; // en mm
 
 // Encoder :
 const uint16_t tick_encoder = 1024;
-const float encoder_diametre = 2.984; // en cm
-const float d_theta = 360.0 / (float)(tick_encoder);
+const float encoder_diametre = 29.84; // en mm
+const float d_theta_rad = (2 * M_PI) / ((float) (tick_encoder));
+const float d_theta_deg = (360.) / ((float) (tick_encoder));
 
 // *****************************************************************************************************
 
@@ -138,11 +140,16 @@ extern volatile bool urgence_bouton;
 extern volatile bool asserv_arret;
 
 // odometrie / asserv
-extern volatile int32_t encoder[2]; // tick des encoder (gauche droite)
-extern volatile float encoder_vitesse[2]; // vitesse des encoder (gauche droite)
-extern volatile float pos_xy[2]; // position actuelle en xy
-extern volatile float dest_xy[2]; // destination voulu en xy
-extern volatile float dest_dalpha[2]; // distance et angle pour aller à dest_xy
+extern volatile int32_t encoder_d; // tick de encoder droit
+extern volatile int32_t encoder_g; // tick de encoder gauche
+extern volatile float encoder_vitesse_d; // vitesse de l'encoder droit
+extern volatile float encoder_vitesse_g; //  vitesse de l'encoder gauche
+extern float pos_x; // position actuelle en x
+extern float pos_y; // position actuelle en y
+extern volatile float dest_x; // destination voulu en x
+extern volatile float dest_y; // destination voulu en y
+extern volatile float dest_dist; // distance pour aller à dest_x et dest_y
+extern volatile float dest_alpha; // angle pour aller à dest_x et dest_y
 extern volatile float beta; // angle du robot par rapport au bord bas
 
 // ports série :

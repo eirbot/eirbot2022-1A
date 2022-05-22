@@ -4,8 +4,8 @@
 #include "securite.hpp"
 
 // Encodeurs
-Encoder encodeur_droit(TIM3);
-Encoder encodeur_gauche(TIM4);
+Encoder encoder_droit(TIM3);
+Encoder encoder_gauche(TIM4);
 
 // Moteur droit
 PwmOut pwm_droit(_pwm_droit);
@@ -45,12 +45,18 @@ volatile bool fdc[5];  // avg avd ard arg gal
 volatile bool dist[4]; // avg avd d ard arg g
 volatile bool urgence_bouton;
 volatile bool asserv_arret;
-volatile int32_t encoder[2];       // tick des encoder (gauche droite)
-volatile float encoder_vitesse[2]; // vitesse des encoder (gauche droite)
-volatile float pos_xy[2];          // position actuelle en xy
-volatile float dest_xy[2];         // destination voulu en xy
-volatile float dest_dalpha[2];     // distance et angle pour aller à dest_xy
-volatile float beta;               // angle du robot par rapport au bord bas
+
+volatile int32_t encoder_d;       // tick de encoder droit
+volatile int32_t encoder_g;       // tick de encoder gauche
+volatile float encoder_vitesse_d; // vitesse de l'encoder droit
+volatile float encoder_vitesse_g; //  vitesse de l'encoder gauche
+float pos_x;             // position actuelle en x
+float pos_y;             // position actuelle en y
+volatile float dest_x;            // destination voulu en x
+volatile float dest_y;            // destination voulu en y
+volatile float dest_dist;         // distance pour aller à dest_x et dest_y
+volatile float dest_alpha;        // angle pour aller à dest_x et dest_y
+volatile float beta;              // angle du robot par rapport au bord bas
 
 // Variable pour les port série :
 char buffer_bras[buffer_size];
@@ -64,40 +70,43 @@ volatile bool afficheur_arret;
 volatile bool bras_etat;
 volatile bool bras_arret;
 
-// Chronomètre 
+// Chronomètre
 Timer chronometer; // chronomètre pour le départ
 
-// Traitement périodique 
+// Traitement périodique
 Ticker odometrie_traitement_periodique;
 Ticker asserv_traitement_periodique;
 Ticker serie_traitement_periodique;
 Ticker securite_traitement_periodique;
 
-
 void init_globale()
 {
     for (int k = 0; k < 5; k++)
-    {    
+    {
         fdc[k] = 0;
     }
-    
+
     for (int k = 0; k < 4; k++)
     {
         dist[k] = 0;
     }
-    
-    for (int k = 0; k < 2; k++)
-    {
-        encoder[k] = 0;
-        encoder_vitesse[k] = 0;
-        pos_xy[k] = 0;
-        dest_xy[k] = 0;
-        dest_dalpha[k] = 0;
-    }
-    
-    beta = 90;
-    
-    //sécurité
+
+    encoder_d = 0;
+    encoder_g = 0;
+    encoder_vitesse_d = 0.;
+    encoder_vitesse_g = 0.;
+    pos_x = 0.;
+    pos_y = 0.;
+    dest_x = 0.;
+    dest_y = 0.;
+    dest_dist = 0.;
+    dest_alpha = 0.;
+    pos_x = 0.;
+    pos_y = 0.;
+
+    beta = 0.;
+
+    // sécurité
     urgence_bouton = 0;
     asserv_arret = 0;
     bras_arret = 0;
@@ -107,8 +116,8 @@ void init_globale()
     equipe = 'V';
     capt_distance = 1; // par défaut on active les capteurs de distance
     arbitre = 0;       // par défaut on ne se met pas en mode arbitre
-    bras_etat = 1; // disponible par défaut
-    
+    bras_etat = 1;     // disponible par défaut
+
     // Variable pour les port série :
     for (int k = 0; k < buffer_size; k++)
     {
@@ -134,7 +143,7 @@ void init_fdc()
     fdc_arriere_gauche.rise(&fdc_arg_1);
     fdc_arriere_droit.rise(&fdc_ard_1);
     fdc_galerie.rise(&fdc_gal_1);
-    
+
     // mise à 0
     fdc_avant_gauche.fall(&fdc_avg_0);
     fdc_avant_droit.fall(&fdc_avd_0);
