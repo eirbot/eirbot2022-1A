@@ -47,7 +47,7 @@ void calcul_pos_xy()
     else
     {
         r = dist_gauche;
-        alpha = beta;
+        alpha = 0;//beta
     }
 
     float add_x = r * cosf(alpha - M_PI_2);
@@ -82,7 +82,7 @@ int main()
 
     // Traitements périodiques nécessaires :
     // serie_traitement_periodique.attach_us(&lecture_arduinos, periode_serie);
-    odometrie_traitement_periodique.attach_us(&odometrie_periodique, 1e3);
+    odometrie_traitement_periodique.attach_us(&odometrie_periodique, 100);
     // securite_traitement_periodique.attach_us(&securite_periodique, periode_securite);
     // asserv_traitement_periodique.attach_us(&asserv_periodique, periode_asserv);
 
