@@ -4,7 +4,7 @@
 
 void lecture_GP2()
 {
-    float dist_mesure[6];
+    float dist_mesure[4];
 
     dist_mesure[0] = dist_avant_gauche.read();
     dist_mesure[1] = dist_avant_droit.read();

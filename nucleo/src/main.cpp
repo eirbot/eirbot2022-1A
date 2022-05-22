@@ -20,9 +20,9 @@ int main(){
     init_pwm();
 
     // Traitements périodiques nécessaires :
-    //serie_traitement_periodique.attach_us(&lecture_arduinos, periode_serie);
+    serie_traitement_periodique.attach_us(&lecture_arduinos, periode_serie);
     //odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
-    securite_traitement_periodique.attach(&securite_periodique, periode_securite);
+    securite_traitement_periodique.attach_us(&securite_periodique, periode_securite);
 
     // chronometer.start();
     
@@ -40,33 +40,39 @@ int main(){
         
     // }
     // chronometer.stop();
-
-    led.write(1);
-
-    wait_us(1e3);
-
-    led.write(0);
+    
 
     bool condition = 0;
-
     while (1)
     {
         
         for (int k=0 ; k < 5 ; k++)
         {
             condition |= fdc[k];
+            printf("%d ", fdc[k]);
         }
+        printf("\t");
         for (int k=0 ; k < 4 ; k++)
         {
             condition |= dist[k];
-            printf("%f \n", dist_arriere_droit.read());
+            printf("%d ", dist[k]);
         }
+        printf("\n");
 
         led.write(condition);
-        //printf("%d %d %d %d \n", dist[0], dist[1], dist[2], dist[3]);
-        
-        
+
         //etalonnage_beta();
 
+        
+
+        // wait_us(10e6);
+        // envoie_afficheur(0,1,0,0);
+        // wait_us(5e6);
+        // envoie_afficheur(0,0,1,0);
+        // wait_us(5e6);
+        // envoie_afficheur(0,0,2,0); 
+        // wait_us(5e6);
+        // envoie_afficheur(0,0,3,0);
+        // wait_us(5e6);
     }
 }

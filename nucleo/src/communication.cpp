@@ -184,11 +184,7 @@ void lecture_bras(bool debug)
     if (bras.readable())
     {
         bras.read(buffer_bras, buffer_size);
-        analyse_bras(0);
-        if (debug)
-        {
-            printf("%s\n", buffer_bras);
-        }
+        analyse_bras(debug);
         for (int k = 0; k < buffer_size; k++)
             buffer_bras[k] = 0; // on vide le buffer
     }
@@ -203,13 +199,11 @@ void lecture_afficheur(bool debug)
     if (afficheur.readable())
     {
         afficheur.read(buffer_afficheur, buffer_size);
-        analyse_afficheur(1);
-        if (debug)
-        {
-            printf("buffer : %s\n", buffer_afficheur);
-        }
+        analyse_afficheur(debug);
         for (int k = 0; k < buffer_size; k++)
+        {
             buffer_afficheur[k] = 0; // on vide le buffer
+        }
     }
     else
     {
@@ -217,7 +211,7 @@ void lecture_afficheur(bool debug)
     }
 }
 
-void envoie_bras(bool arret, uint8_t processus_bras, bool replique, bool pompe_ev)
+void envoie_bras(bool arret, uint8_t processus_bras, bool replique, bool pompe_ev, bool debug)
 {
     char nb_envoie = 0;
     if (arret == 1)
@@ -332,12 +326,16 @@ void envoie_bras(bool arret, uint8_t processus_bras, bool replique, bool pompe_e
     if (afficheur.writable())
     {
         afficheur.write(buffer_envoie, 1);
+        if (debug)
+        {
+            printf("numero envoyé au bras : %d\n", nb_envoie);
+        } 
     }
 
     buffer_envoie[0] = 0; // on vide le buffer
 }
 
-void envoie_afficheur(bool arret, bool recopie, uint8_t message)
+void envoie_afficheur(bool arret, bool recopie, uint8_t message, bool debug)
 {
     char nb_envoie = 0;
     if (arret == 1)
@@ -352,29 +350,29 @@ void envoie_afficheur(bool arret, bool recopie, uint8_t message)
         }
         else if (recopie == 0)
         {
-            if (message == 0)
+            if (message == 1)
             {
                 nb_envoie = 10;
             }
-            else if (message == 1)
+            else if (message == 2)
             {
                 nb_envoie = 20;
             }
-            else if (message == 2)
+            else if (message == 3)
             {
                 nb_envoie = 30;
             }
         }
     }
     
-    
-
-    // sprintf(buffer_envoie, "%d", nb_envoie);
     buffer_envoie[0] = nb_envoie;
     if (afficheur.writable())
     {
         afficheur.write(buffer_envoie, 1);
-        printf("numero_fct : %d\n", nb_envoie);
+        if (debug)
+        {
+            printf("numero envoyé à l'affciheur : %d\n", nb_envoie);
+        }        
     }
 
     buffer_envoie[0] = 0; // on vide le buffer

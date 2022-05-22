@@ -23,10 +23,11 @@
 #define _dir_gauche PA_4 // A2
 
 // Fin de course
-#define _fdc_avant_droit PA_0    // A0 | EXTI0
-#define _fdc_avant_gauche PB_1   // en face de D7 | EXTI1
-#define _fdc_arriere_droit PD_2  // avant dernier droit [haut gauche] | EXTI2
-#define _fdc_arriere_gauche PB_3 // D3 | EXTI3
+#define _fdc_avant_gauche PD_2  // avant dernier droit [haut gauche] | EXTI2
+#define _fdc_avant_droit PB_3 // D3 | EXTI3
+#define _fdc_arriere_droit PB_1   // en face de D7 | EXTI1
+#define _fdc_arriere_gauche PA_0    // A0 | EXTI0
+
 #define _fdc_galerie PC_5        // diagonale basse D14 | EXTI5
 
 // Urgence
@@ -45,11 +46,10 @@
 #define _SCL PA_8 // D7
 
 // Capteur de distance : Analogiques
-#define _dist_avant_gauche PC_2   // en face de A4
-#define _dist_avant_droit PC_4    // en face de D2 
-#define _dist_arriere_gauche PC_0 // A5
-#define _dist_arriere_droit PC_1  // A4
-
+#define _dist_avant_gauche PC_1  // A4
+#define _dist_avant_droit PC_0 // A5
+#define _dist_arriere_gauche  PC_2   // en face de A4
+#define _dist_arriere_droit PC_4    // en face de D2
 // *****************************************************************************************************
 
 /***************************************
