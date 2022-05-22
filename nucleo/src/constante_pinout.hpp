@@ -1,9 +1,12 @@
 // #pragma once
-#include <mbed.h>
-#include "encoder.h"
 
 #ifndef constante_pinout_h
 #define constante_pinout_h
+
+#include <mbed.h>
+#include "encoder.h"
+#include "constante_pinout.hpp"
+#include "securite.hpp"
 
 /***************************************
  *************   PINS  *****************

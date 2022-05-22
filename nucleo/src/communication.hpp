@@ -1,5 +1,3 @@
-#include "constante_pinout.hpp"
-
 #ifndef communication_h
 #define communication_h
 

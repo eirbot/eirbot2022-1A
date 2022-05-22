@@ -1,6 +1,6 @@
 #include <mbed.h>
-#include "constante_pinout.hpp"
 #include "encoder.h"
+#include "constante_pinout.hpp"
 #include "securite.hpp"
 
 // Encodeurs

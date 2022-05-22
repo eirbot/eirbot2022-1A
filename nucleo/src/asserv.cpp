@@ -1,10 +1,4 @@
-#include <mbed.h>
-#include "constante_pinout.hpp"
-#include <math.h>
-
 #include "asserv.hpp"
-
-
 
 float PI(float erreur)
 {
@@ -15,12 +9,12 @@ float PI(float erreur)
     return y_n;
 }
 
-void conversion_consigne()
+void conversion_dalpha()
 {
     // convertit la consigne en rotation + translation stocké dans dest_dalpha d en 0 et alpha en 1
     // calcul de la distance
     dest_dalpha[0] = sqrt(pow(dest_xy[0] - pos_xy[0], 2) + pow(dest_xy[1] - pos_xy[0], 2));
-    
+
     // calcul de l'angle :
     if ((dest_xy[1] > pos_xy[1]) and (dest_xy[0] > pos_xy[0]))
     {
@@ -56,4 +50,15 @@ void calcul_vitesse()
     // fonction exécutée périodiquement pour le calcul de la vitesse pour l'asservissement bite
     encoder_vitesse[0] = vitesse(0);
     encoder_vitesse[1] = vitesse(1);
+}
+
+void asserv_periodique()
+{
+    if (asserv_arret == 0)
+    {
+    }
+    else
+    {
+        // secu
+    }
 }

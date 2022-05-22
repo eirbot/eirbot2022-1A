@@ -1,11 +1,7 @@
-#include <mbed.h>
 #include "constante_pinout.hpp"
 #include <math.h>
 
 #include "odometrie.hpp"
-
-#ifndef odometrie_h
-#define odometrie_h
 
 void reset(float x_pos, float y_pos)
 {
@@ -52,4 +48,3 @@ void odometrie_periodique()
     calcul_encoder();
     calcul_pos_xy();
 }
-#endif

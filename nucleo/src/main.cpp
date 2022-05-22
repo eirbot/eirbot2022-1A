@@ -21,9 +21,9 @@ int main(){
 
     // Traitements périodiques nécessaires :
     serie_traitement_periodique.attach_us(&lecture_arduinos, periode_serie);
-    //odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
+    odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
     securite_traitement_periodique.attach_us(&securite_periodique, periode_securite);
-
+    asserv_traitement_periodique.attach_us(&asserv_periodique, periode_asserv);
     // chronometer.start();
     
     // while (chronometer.elapsed_time().count() < (int64_t) (5*1e6))
