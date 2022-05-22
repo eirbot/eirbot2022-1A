@@ -103,7 +103,7 @@ extern AnalogIn dist_arriere_droit;
  ****************************************/
 // Périodes 
 const uint16_t periode_pwm = 25; // en us
-const uint32_t periode_odometrie = 1e3; // en us
+const uint32_t periode_odometrie = 100; // en us
 const uint32_t periode_asserv = 1e3;  // en us
 const uint32_t periode_serie = 1e5;  // en us
 const uint32_t periode_securite = 1000; // en us
@@ -113,7 +113,7 @@ const float Kp = 0.0401;
 const float Ki = 0.425;
 
 // sécurité
-const float dist_seuil = 0.6; // à vérifier
+const float dist_seuil = 0.5; // à vérifier
 
 // port série
 const uint16_t buffer_size = 32;

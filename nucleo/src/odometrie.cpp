@@ -24,23 +24,27 @@ void calcul_pos_xy()
     float dist_gauche = encoder_g * d_theta_rad * encoder_diametre; // en mm
     float dist_droit = encoder_d * d_theta_rad * encoder_diametre;  // en mm
 
-    float r, alpha;
+    float dist = (dist_droit + dist_gauche) / 2;
+    
 
-    if (encoder_vitesse_g != encoder_vitesse_d)
-    {
-        r = (entre_axe / 2) * (encoder_vitesse_g + encoder_vitesse_d) / (encoder_vitesse_g - encoder_vitesse_d);
-        alpha = ((dist_gauche + dist_droit) / 2) / r;
-    }
-    else
-    {
-        r = 0.;
-        alpha = 0.; // beta
-    }
 
-    float add_x = r * cosf(alpha - M_PI_2);
-    float add_y = r * sinf(alpha - M_PI_2);
+    // float r, alpha;
 
-    beta += alpha;
+    // if (dist_gauche != dist_droit)
+    // {
+    //     r = ((entre_axe / 2) * (dist_gauche + dist_droit)) / (dist_gauche - dist_droit);
+    //     alpha = (entre_axe * (dist_gauche)) / (dist_gauche - dist_droit);
+    // }
+    // else
+    // {
+    //     r = 0.;
+    //     alpha = 0.; // beta
+    // }
+    float add_beta = (dist_droit - dist_gauche) / entre_axe;
+    float add_x = dist * cosf(add_beta - M_PI_2);
+    float add_y = dist * sinf(add_beta - M_PI_2);
+    
+    beta += add_beta;
     pos_x += add_x;
     pos_y += add_y;
 }
