@@ -33,3 +33,5 @@
 
 #.vs
 nucleo/.vscode/
+arduino/bras/.vscode/
+arduino/afficheur/.vscode/
