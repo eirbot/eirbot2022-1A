@@ -73,8 +73,8 @@ volatile bool afficheur_arret;
 volatile bool bras_etat;
 volatile bool bras_arret;
 
-uint32_t temoin_d;
-uint32_t temoin_g;
+int32_t temoin_d;
+int32_t temoin_g;
 
 // Chronomètre
 Timer chronometer; // chronomètre pour le départ

@@ -23,29 +23,14 @@ void calcul_encoder()
 void calcul_pos_xy()
 {
     // Fonction utilisée poencoder_dur le traitement périodique des encoders
-    float dist_gauche = (float) (encoder_g) * d_theta_rad * encoder_diametre; // en mm
-    float dist_droit = - (float) (encoder_d) * d_theta_rad * encoder_diametre;  // en mm
+    float dist_gauche = - (float) (encoder_g) * d_theta_rad * encoder_diametre; // en m
+    float dist_droit =  (float) (encoder_d) * d_theta_rad * encoder_diametre;  // en m
 
-    float dist = (dist_droit + dist_gauche) / 2;
+    float dist = (dist_droit + dist_gauche) / 2.;
     
-
-
-    // float r, alpha;
-
-    // if (dist_gauche != dist_droit)
-    // {
-    //     r = ((entre_axe / 2) * (dist_gauche + dist_droit)) / (dist_gauche - dist_droit);
-    //     alpha = (entre_axe * (dist_gauche)) / (dist_gauche - dist_droit);
-    // }
-    // else
-    // {
-    //     r = 0.;
-    //     alpha = 0.; // beta
-    // }
-    
-    pos_x += - dist * sinf(beta);
-    pos_y += dist * cosf(beta);
-    beta += (dist_droit - dist_gauche) / entre_axe;
+    beta += (dist_droit - dist_gauche) / (2*entre_axe);
+    pos_x += dist * sinf(beta);
+    pos_y -= dist * cosf(beta);
 }
 void calcul_vitesse()
 {

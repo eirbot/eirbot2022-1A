@@ -168,8 +168,8 @@ extern volatile bool afficheur_arret;
 extern volatile bool bras_etat;
 extern volatile bool bras_arret;
 
-extern uint32_t temoin_d;
-extern uint32_t temoin_g;
+extern int32_t temoin_d;
+extern int32_t temoin_g;
 
 // *****************************************************************************************************
 /***************************************
