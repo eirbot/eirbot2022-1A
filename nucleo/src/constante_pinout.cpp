@@ -50,13 +50,16 @@ volatile int32_t encoder_d;       // tick de encoder droit
 volatile int32_t encoder_g;       // tick de encoder gauche
 volatile float encoder_vitesse_d; // vitesse de l'encoder droit
 volatile float encoder_vitesse_g; //  vitesse de l'encoder gauche
-float pos_x;             // position actuelle en x
-float pos_y;             // position actuelle en y
+
+volatile float pos_x;             // position actuelle en x
+volatile float pos_y;             // position actuelle en y
+volatile float beta;              // angle du robot par rapport au bord bas
+
 volatile float dest_x;            // destination voulu en x
 volatile float dest_y;            // destination voulu en y
 volatile float dest_dist;         // distance pour aller à dest_x et dest_y
 volatile float dest_alpha;        // angle pour aller à dest_x et dest_y
-volatile float beta;              // angle du robot par rapport au bord bas
+
 
 // Variable pour les port série :
 char buffer_bras[buffer_size];
@@ -69,6 +72,9 @@ volatile bool arbitre;
 volatile bool afficheur_arret;
 volatile bool bras_etat;
 volatile bool bras_arret;
+
+uint32_t temoin_d;
+uint32_t temoin_g;
 
 // Chronomètre
 Timer chronometer; // chronomètre pour le départ
@@ -124,6 +130,7 @@ void init_globale()
         buffer_bras[k] = 0;
         buffer_afficheur[k] = 0;
     }
+
 }
 
 void init_pwm()

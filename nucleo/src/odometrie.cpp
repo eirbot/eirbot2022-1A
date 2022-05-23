@@ -16,6 +16,8 @@ void calcul_encoder()
     encoder_gauche.reset();
     encoder_d = encoder_droit.get_diff();
     encoder_droit.reset();
+    temoin_d+=encoder_d;
+    temoin_g+=encoder_g;
 }
 
 void calcul_pos_xy()
@@ -40,13 +42,10 @@ void calcul_pos_xy()
     //     r = 0.;
     //     alpha = 0.; // beta
     // }
-    float add_beta = (dist_droit - dist_gauche) / entre_axe;
-    float add_x = dist * cosf(add_beta - M_PI_2);
-    float add_y = dist * sinf(add_beta - M_PI_2);
     
-    beta += add_beta;
-    pos_x += add_x;
-    pos_y += add_y;
+    pos_x += - dist * sinf(beta);
+    pos_y += dist * cosf(beta);
+    beta += (dist_droit - dist_gauche) / entre_axe;
 }
 void calcul_vitesse()
 {

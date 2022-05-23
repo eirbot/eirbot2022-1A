@@ -103,7 +103,7 @@ extern AnalogIn dist_arriere_droit;
  ****************************************/
 // Périodes 
 const uint16_t periode_pwm = 25; // en us
-const uint32_t periode_odometrie = 100; // en us
+const uint32_t periode_odometrie = 500; // en us
 const uint32_t periode_asserv = 1e3;  // en us
 const uint32_t periode_serie = 1e5;  // en us
 const uint32_t periode_securite = 1000; // en us
@@ -144,13 +144,16 @@ extern volatile int32_t encoder_d; // tick de encoder droit
 extern volatile int32_t encoder_g; // tick de encoder gauche
 extern volatile float encoder_vitesse_d; // vitesse de l'encoder droit
 extern volatile float encoder_vitesse_g; //  vitesse de l'encoder gauche
-extern float pos_x; // position actuelle en x
-extern float pos_y; // position actuelle en y
+
+extern volatile float pos_x; // position actuelle en x
+extern volatile float pos_y; // position actuelle en y
+extern volatile float beta; // angle du robot par rapport au bord bas
+
 extern volatile float dest_x; // destination voulu en x
 extern volatile float dest_y; // destination voulu en y
 extern volatile float dest_dist; // distance pour aller à dest_x et dest_y
 extern volatile float dest_alpha; // angle pour aller à dest_x et dest_y
-extern volatile float beta; // angle du robot par rapport au bord bas
+
 
 // ports série :
 extern char buffer_bras[buffer_size];
@@ -164,6 +167,9 @@ extern volatile bool arbitre;
 extern volatile bool afficheur_arret;
 extern volatile bool bras_etat;
 extern volatile bool bras_arret;
+
+extern uint32_t temoin_d;
+extern uint32_t temoin_g;
 
 // *****************************************************************************************************
 /***************************************
