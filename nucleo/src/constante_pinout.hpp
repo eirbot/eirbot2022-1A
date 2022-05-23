@@ -120,11 +120,11 @@ const uint16_t buffer_size = 32;
 const uint16_t baud_rate = 9600;
 
 // Dimension robot :
-const float entre_axe = 382.4; // en mm
+const float entre_axe = 0.3824; // en m
 
 // Encoder :
 const uint16_t tick_encoder = 1024;
-const float encoder_diametre = 29.84; // en mm
+const float encoder_diametre = 0.02984; // en m
 const float d_theta_rad = (2 * M_PI) / ((float) (tick_encoder));
 const float d_theta_deg = (360.) / ((float) (tick_encoder));
 

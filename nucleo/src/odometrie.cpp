@@ -22,9 +22,9 @@ void calcul_encoder()
 
 void calcul_pos_xy()
 {
-    // Fonction utilisée pour le traitement périodique des encoders
-    float dist_gauche = encoder_g * d_theta_rad * encoder_diametre; // en mm
-    float dist_droit = encoder_d * d_theta_rad * encoder_diametre;  // en mm
+    // Fonction utilisée poencoder_dur le traitement périodique des encoders
+    float dist_gauche = (float) (encoder_g) * d_theta_rad * encoder_diametre; // en mm
+    float dist_droit = - (float) (encoder_d) * d_theta_rad * encoder_diametre;  // en mm
 
     float dist = (dist_droit + dist_gauche) / 2;
     
