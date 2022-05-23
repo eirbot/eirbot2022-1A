@@ -5,9 +5,16 @@
 float PI(float erreur)
 {
     static float y_n1 = 0;
-    float y_n = y_n1 + erreur * (Kp + Ki * (float)periode_asserv);
+    float y_n = y_n1 + erreur * (K_PI_p + K_PI_i * (float)periode_asserv);
 
     y_n1 = y_n;
+    return y_n;
+}
+
+float P(float erreur)
+{
+    float y_n = K_P_p;
+
     return y_n;
 }
 
@@ -45,6 +52,7 @@ void asserv_periodique()
 {
     if (asserv_arret == 0)
     {
+        // code en cas d'urgence
     }
     else
     {

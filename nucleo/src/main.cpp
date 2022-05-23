@@ -38,7 +38,7 @@ int main()
     pwm_droit.pulsewidth_us(5);
     wait_us(1e6);
     arret_moteur();
-    pwm_droit.pulsewidth_us(5);
+    pwm_gauche.pulsewidth_us(5);
     wait_us(1e6);
     arret_moteur();
 
