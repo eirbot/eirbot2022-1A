@@ -109,8 +109,10 @@ const uint32_t periode_serie = 1e5;  // en us
 const uint32_t periode_securite = 1000; // en us
 
 // asserv
-const float Kp = 0.0401;
-const float Ki = 0.425;
+const float K_PI_p = 0.0401;
+const float K_PI_i = 0.425;
+
+const float K_P_p = 1;
 
 // sécurité
 const float dist_seuil = 0.5; // à vérifier
