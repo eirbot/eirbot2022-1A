@@ -71,69 +71,6 @@ void analyse_afficheur(bool debug)
     }
 }
 
-// char analyse_inverse_afficheur(bool arret, char equipe, bool capt_distance, bool arbitre)
-// {
-//     char nb_envoye;
-//     if (arret == 0)
-//     {
-//         nb_envoye = 0;
-//     }
-//     else
-//     {
-//         if (equipe == 'V')
-//         {
-//             if (capt_distance == 0)
-//             {
-//                 if (arbitre == 0)
-//                 {
-//                     nb_envoye = 1;
-//                 }
-//                 else
-//                 {
-//                     nb_envoye = 2;
-//                 }
-//             }
-//             else if (capt_distance == 1)
-//             {
-//                 if (arbitre == 0)
-//                 {
-//                     nb_envoye = 3;
-//                 }
-//                 else
-//                 {
-//                     nb_envoye = 4;
-//                 }
-//             }
-//         }
-//         else if (equipe == 'J')
-//         {
-//             if (capt_distance == 0)
-//             {
-//                 if (arbitre == 0)
-//                 {
-//                     nb_envoye = 5;
-//                 }
-//                 else
-//                 {
-//                     nb_envoye = 6;
-//                 }
-//             }
-//             else if (capt_distance == 1)
-//             {
-//                 if (arbitre == 0)
-//                 {
-//                     nb_envoye = 7;
-//                 }
-//                 else
-//                 {
-//                     nb_envoye = 8;
-//                 }
-//             }
-//         }
-//     }
-
-//     return nb_envoye;
-// }
 char analyse_inverse_afficheur(bool arret, char equipe, bool capt_distance, bool arbitre)
 {
     char nb_envoie = 0;
@@ -143,7 +80,7 @@ char analyse_inverse_afficheur(bool arret, char equipe, bool capt_distance, bool
     }
     else if (arret == 0)
     {
-        nb_envoie = 1 + arbitre + capt_distance*2 ;
+        nb_envoie = 1 + arbitre + capt_distance * 2;
         if (equipe == 'J')
         {
             nb_envoie += 4;
@@ -185,8 +122,11 @@ void lecture_bras(bool debug)
     {
         bras.read(buffer_bras, buffer_size);
         analyse_bras(debug);
+        baton_parole_bras = 1;
         for (int k = 0; k < buffer_size; k++)
-            buffer_bras[k] = 0; // on vide le buffer
+        {
+            buffer_bras[k] = 0; // on vide le buffer}
+        }
     }
     else
     {
@@ -194,12 +134,14 @@ void lecture_bras(bool debug)
     }
 }
 
+
 void lecture_afficheur(bool debug)
 {
     if (afficheur.readable())
     {
         afficheur.read(buffer_afficheur, buffer_size);
         analyse_afficheur(debug);
+        baton_parole_afficheur = 1;
         for (int k = 0; k < buffer_size; k++)
         {
             buffer_afficheur[k] = 0; // on vide le buffer
@@ -329,7 +271,7 @@ void envoie_bras(bool arret, uint8_t processus_bras, bool replique, bool pompe_e
         if (debug)
         {
             printf("numero envoyé au bras : %d\n", nb_envoie);
-        } 
+        }
     }
 
     buffer_envoie[0] = 0; // on vide le buffer
@@ -364,15 +306,16 @@ void envoie_afficheur(bool arret, bool recopie, uint8_t message, bool debug)
             }
         }
     }
-    
+
     buffer_envoie[0] = nb_envoie;
     if (afficheur.writable())
     {
         afficheur.write(buffer_envoie, 1);
+        baton_parole_afficheur = 0;
         if (debug)
         {
             printf("numero envoyé à l'affciheur : %d\n", nb_envoie);
-        }        
+        }
     }
 
     buffer_envoie[0] = 0; // on vide le buffer

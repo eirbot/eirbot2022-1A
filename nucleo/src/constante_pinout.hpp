@@ -170,15 +170,15 @@ extern volatile bool afficheur_arret;
 extern volatile bool bras_etat;
 extern volatile bool bras_arret;
 
-extern int32_t temoin_d;
-extern int32_t temoin_g;
+extern volatile bool baton_parole_bras; // 0 ne parle pas à l'arduino
+extern volatile bool baton_parole_afficheur; // 0 ne parle pas à l'arduino
 
 // *****************************************************************************************************
 /***************************************
  ************* Temporalité du code *****
  ****************************************/
 // Chronomètre 
-extern Timer chronometre; // chronomètre pour le départ
+extern Timer chronometer; // chronomètre pour le départ
 
 // Traitement périodique 
 extern Ticker odometrie_traitement_periodique;

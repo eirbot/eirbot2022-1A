@@ -16,8 +16,6 @@ void calcul_encoder()
     encoder_gauche.reset();
     encoder_d = encoder_droit.get_diff();
     encoder_droit.reset();
-    temoin_d+=encoder_d;
-    temoin_g+=encoder_g;
 }
 
 void calcul_pos_xy()

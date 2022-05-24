@@ -17,7 +17,9 @@ void fdc_ard_0();
 void fdc_arg_0();
 void fdc_gal_0();
 
+void lecture_securite();
 
+void asserv_arret_flag();
 
 void securite_periodique();
 

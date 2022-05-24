@@ -1,4 +1,6 @@
 #include "constante_pinout.hpp"
+#include "asserv.hpp"
+#include "deplacement.hpp"
 
 #include "securite.hpp"
 
@@ -104,11 +106,42 @@ void fdc_gal_0()
     fdc[4] = 0;
 }
 
+void lecture_securite()
+{
+    bool condition_fdc = 0;
+    bool condition_dist = 0;
+    for (int k = 0; k < 5; k++)
+        {
+            condition_fdc |= fdc[k];
+        }
+        if (capt_distance == 1)
+        {
+            for (int k = 0; k < 4; k++)
+            {
+                condition_dist |= dist[k];
+            }
+        }
+
+        if (condition_fdc == 1 ||condition_dist == 1)
+        {
+            arret_moteur();
+            asserv_arret = 1;
+        }
+        else
+        {
+            asserv_arret = 0;
+        }
+}
+
 void asserv_arret_flag()
 {
     if (asserv_arret == 1)
     {
         asserv_traitement_periodique.detach();
+    }
+    else 
+    {
+        asserv_traitement_periodique.attach_us(&asserv_periodique, periode_asserv);
     }
 }
 // *****************************************************************************************************
@@ -119,5 +152,11 @@ void asserv_arret_flag()
 
 void securite_periodique()
 {
-    lecture_GP2();
+    if (capt_distance == 1)
+    {
+        lecture_GP2();
+    }
+    lecture_securite();
+    asserv_arret_flag();
+    
 }

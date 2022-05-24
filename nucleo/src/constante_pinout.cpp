@@ -51,15 +51,14 @@ volatile int32_t encoder_g;       // tick de encoder gauche
 volatile float encoder_vitesse_d; // vitesse de l'encoder droit
 volatile float encoder_vitesse_g; //  vitesse de l'encoder gauche
 
-volatile float pos_x;             // position actuelle en x
-volatile float pos_y;             // position actuelle en y
-volatile float beta;              // angle du robot par rapport au bord bas
+volatile float pos_x; // position actuelle en x
+volatile float pos_y; // position actuelle en y
+volatile float beta;  // angle du robot par rapport au bord bas
 
-volatile float dest_x;            // destination voulu en x
-volatile float dest_y;            // destination voulu en y
-volatile float dest_dist;         // distance pour aller à dest_x et dest_y
-volatile float dest_alpha;        // angle pour aller à dest_x et dest_y
-
+volatile float dest_x;     // destination voulu en x
+volatile float dest_y;     // destination voulu en y
+volatile float dest_dist;  // distance pour aller à dest_x et dest_y
+volatile float dest_alpha; // angle pour aller à dest_x et dest_y
 
 // Variable pour les port série :
 char buffer_bras[buffer_size];
@@ -73,8 +72,8 @@ volatile bool afficheur_arret;
 volatile bool bras_etat;
 volatile bool bras_arret;
 
-int32_t temoin_d;
-int32_t temoin_g;
+volatile bool baton_parole_bras; // 0 ne parle pas à la nucléo
+volatile bool baton_parole_afficheur; // 0 ne parle pas à la nucléo
 
 // Chronomètre
 Timer chronometer; // chronomètre pour le départ
@@ -113,10 +112,12 @@ void init_globale()
     beta = 0.;
 
     // sécurité
-    urgence_bouton = 0;
-    asserv_arret = 0;
+    asserv_arret = 1;
+
+    // securité lue
     bras_arret = 0;
     afficheur_arret = 0;
+    urgence_bouton = 0;
 
     // config
     equipe = 'V';
@@ -124,13 +125,12 @@ void init_globale()
     arbitre = 0;       // par défaut on ne se met pas en mode arbitre
     bras_etat = 1;     // disponible par défaut
 
-    // Variable pour les port série :
+    // Variable pour les ports série :
     for (int k = 0; k < buffer_size; k++)
     {
         buffer_bras[k] = 0;
         buffer_afficheur[k] = 0;
     }
-
 }
 
 void init_pwm()
@@ -139,6 +139,8 @@ void init_pwm()
     // période des pwm
     pwm_droit.period_us(periode_pwm);
     pwm_gauche.period_us(periode_pwm);
+    pwm_droit.pulsewidth_us(0);
+    pwm_gauche.pulsewidth_us(0);
 }
 
 void init_fdc()
