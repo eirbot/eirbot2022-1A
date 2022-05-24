@@ -6,131 +6,119 @@
 
 void lecture_GP2()
 {
-    float dist_mesure[4];
-
-    dist_mesure[0] = dist_avant_gauche.read();
-    dist_mesure[1] = dist_avant_droit.read();
-    dist_mesure[2] = dist_arriere_droit.read();
-    dist_mesure[3] = dist_arriere_gauche.read();
-
-    for (int k = 0; k < 4; k++)
+    if (dist_arriere_gauche.read() > dist_seuil)
     {
-        if (dist_mesure[k] >= dist_seuil)
-        {
-            dist[k] = 1;
-        }
-        else
-        {
-            dist[k] = 0;
-        }
+        dist_arg = 1;
     }
-}
-
-void lecture_fdc(uint8_t numero)
-{
-    if (numero > 5)
+    else
     {
-        numero = 4; // par défaut je renvoie celui qui est en face de la galerie
+        dist_arg = 0;
     }
 
-    switch (numero)
+    if (dist_avant_gauche.read() > dist_seuil)
     {
-    case 0:
-        fdc[0] = fdc_avant_droit.read();
-        break;
-    case 1:
-        fdc[1] = fdc_avant_gauche.read();
-        break;
-    case 2:
-        fdc[2] = fdc_arriere_gauche.read();
-        break;
-    case 3:
-        fdc[3] = fdc_arriere_droit.read();
-        break;
-    case 4:
-        fdc[4] = fdc_galerie.read();
-        break;
-    default:
-        fdc[4] = fdc_galerie.read();
-        break;
+        dist_avg = 1;
+    }
+    else
+    {
+        dist_avg = 0;
+    }
+
+    if (dist_avant_droit.read() > dist_seuil)
+    {
+        dist_avd = 1;
+    }
+    else
+    {
+        dist_avd = 0;
+    }
+    
+    if (dist_arriere_droit.read() > dist_seuil)
+    {
+        dist_ard = 1;
+    }
+    else
+    {
+        dist_ard = 0;
     }
 }
 
 void fdc_avg_1()
 {
-    fdc[0] = 1;
+    fdc_avg = 1;
 }
 
 void fdc_avd_1()
 {
-    fdc[1] = 1;
+    fdc_avd = 1;
 }
 
 void fdc_ard_1()
 {
-    fdc[2] = 1;
+    fdc_ard = 1;
 }
 
 void fdc_arg_1()
 {
-    fdc[3] = 1;
+    fdc_arg = 1;
 }
 
 void fdc_gal_1()
 {
-    fdc[4] = 1;
+    fdc_gal = 1;
 }
 
 void fdc_avg_0()
 {
-    fdc[0] = 0;
+    fdc_avg = 0;
 }
 
 void fdc_avd_0()
 {
-    fdc[1] = 0;
+    fdc_avd = 0;
 }
 
 void fdc_ard_0()
 {
-    fdc[2] = 0;
+    fdc_ard = 0;
 }
 
 void fdc_arg_0()
 {
-    fdc[3] = 0;
+    fdc_arg = 0;
 }
 
 void fdc_gal_0()
 {
-    fdc[4] = 0;
+    fdc_gal = 0;
 }
 
 void lecture_securite()
 {
     bool condition_fdc = 0;
     bool condition_dist = 0;
-    for (int k = 0; k < 5; k++)
-        {
-            condition_fdc |= fdc[k];
-        }
-        if (capt_distance == 1)
-        {
-            for (int k = 0; k < 4; k++)
-            {
-                condition_dist |= dist[k];
-            }
-        }
+    condition_fdc |= fdc_avg;
+    condition_fdc |= fdc_avd;
+    condition_fdc |= fdc_arg;
+    condition_fdc |= fdc_ard;
 
-        if (condition_fdc == 1 ||condition_dist == 1)
-        {
-            arret_moteur();
-            asserv_arret = 1;
-        }
-        else
-        {
-            asserv_arret = 0;
-        }
+    if (capt_distance == 1)
+    {
+        condition_dist |= dist_avg;
+        condition_dist |= dist_avd;
+        condition_dist |= dist_arg;
+        condition_dist |= dist_ard;
+    }
+
+    // if (condition_fdc == 1 ||condition_dist == 1)
+    // {
+    //     arret_moteur();
+    //     asserv_arret = 1;
+    // }
+    // else
+    // {
+    //     asserv_arret = 0;
+    // }
 }
 
 void asserv_arret_flag()
@@ -139,7 +127,7 @@ void asserv_arret_flag()
     {
         asserv_traitement_periodique.detach();
     }
-    else 
+    else
     {
         asserv_traitement_periodique.attach_us(&asserv_periodique, periode_asserv);
     }
@@ -158,5 +146,4 @@ void securite_periodique()
     }
     lecture_securite();
     asserv_arret_flag();
-    
 }

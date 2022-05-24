@@ -41,8 +41,15 @@ AnalogIn dist_arriere_gauche(_dist_arriere_gauche);
 AnalogIn dist_arriere_droit(_dist_arriere_droit);
 
 // Variables globales :
-volatile bool fdc[5];  // avg avd ard arg gal
-volatile bool dist[4]; // avg avd d ard arg g
+volatile bool fdc_avg;
+volatile bool fdc_avd;
+volatile bool fdc_ard;
+volatile bool fdc_arg;
+volatile bool fdc_gal;
+volatile bool dist_avg; 
+volatile bool dist_avd;
+volatile bool dist_arg;
+volatile bool dist_ard;
 volatile bool urgence_bouton;
 volatile bool asserv_arret;
 
@@ -92,15 +99,16 @@ Ticker securite_traitement_periodique;
 
 void init_globale()
 {
-    for (int k = 0; k < 5; k++)
-    {
-        fdc[k] = 0;
-    }
+    fdc_avg = 1;
+    fdc_avd = 1;
+    fdc_arg = 1;
+    fdc_ard = 1;
 
-    for (int k = 0; k < 4; k++)
-    {
-        dist[k] = 0;
-    }
+    
+    dist_avg = 1;
+    dist_avd = 1;
+    dist_arg = 1;
+    dist_ard = 1;
 
     encoder_d = 0;
     encoder_g = 0;

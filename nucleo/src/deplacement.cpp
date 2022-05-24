@@ -3,7 +3,7 @@
 #include "odometrie.hpp"
 #include "deplacement.hpp"
 
-void avancer_primitif(uint16_t pwm)
+void avancer_primitif(uint8_t pwm)
 {
     dir_droit.write(1);
     dir_gauche.write(1);
@@ -11,11 +11,22 @@ void avancer_primitif(uint16_t pwm)
     pwm_gauche.pulsewidth_us(pwm);
 }
 
-void reculer_primitif( uint16_t pwm)
+void reculer_primitif(uint8_t pwm)
 {
     dir_droit.write(0);
     dir_gauche.write(0);
     pwm_droit.pulsewidth_us(pwm);
+    pwm_gauche.pulsewidth_us(pwm);
+}
+
+void roue_d(uint8_t pwm, bool sens)
+{
+    dir_droit.write(sens);
+    pwm_droit.pulsewidth_us(pwm);
+}
+void roue_g(uint8_t pwm, bool sens)
+{
+    dir_gauche.write(sens);
     pwm_gauche.pulsewidth_us(pwm);
 }
 
@@ -29,7 +40,7 @@ void arret_moteur()
 
 void etalonnage_xybeta()
 {
-    while (fdc[3] == 0 && fdc[4] == 0)
+    while (fdc_arg == 0 && fdc_ard == 0)
     {
         reculer_primitif(4);
     }

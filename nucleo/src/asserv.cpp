@@ -1,31 +1,32 @@
 #include "constante_pinout.hpp"
 #include "asserv.hpp"
+#include "deplacement.hpp"
 #include <math.h>
 
-uint8_t PI(float erreur)
+float PI(float erreur)
 {
     static float y_n1 = 0;
     float y_n = y_n1 + erreur * (K_PI_p + K_PI_i * (float)periode_asserv);
 
     y_n1 = y_n;
-    return (uint8_t) y_n;
+    return (uint8_t)y_n;
 }
 
-uint8_t P(float erreur)
+float P(float erreur)
 {
     float y_n = K_P_p;
 
-    return (uint8_t) y_n;
+    return (uint8_t)y_n;
 }
 
-uint8_t P_angle(float erreur)
+float P_angle(float erreur)
 {
-    return (uint8_t) (K_P_angle * erreur);
+    return (uint8_t)(K_P_angle * erreur);
 }
 
-uint8_t P_dist(float erreur)
+float P_dist(float erreur)
 {
-    return (uint8_t) (K_P_dist * erreur);
+    return (uint8_t)(K_P_dist * erreur);
 }
 
 void conversion_dalpha()
@@ -58,7 +59,7 @@ void conversion_dalpha()
     beta += increment;
 }
 
-uint8_t sature(uint8_t valeur, uint8_t min, uint8_t max)
+uint8_t sature(float valeur, uint8_t min, uint8_t max)
 {
     if (valeur < min)
     {
@@ -68,15 +69,27 @@ uint8_t sature(uint8_t valeur, uint8_t min, uint8_t max)
     {
         return max;
     }
-    return valeur;
+    return (uint8_t) valeur;
 }
 
 void asserv_periodique()
 {
     if (asserv_arret == 0)
     {
-        //
         
+        float erreur_angle = dest_alpha - ((encoder_angle_d - encoder_angle_g));
+        float consignef = PI(P_angle(erreur_angle) - (encoder_vitesse_d + encoder_vitesse_g));
+
+        bool sens = 1;
+        if (consignef > 0)
+        {
+            sens = 1;
+        }
+        
+        uint8_t consigne = sature(fabs(consignef), 0, 24);
+        printf("%d\n", consigne);
+        roue_d(consigne, sens);
+        roue_g(consigne, !sens);
     }
     else
     {

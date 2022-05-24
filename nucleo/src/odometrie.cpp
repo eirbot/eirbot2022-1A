@@ -18,14 +18,14 @@ void calculs_encoder()
     encoder_d = encoder_droit.get_diff();
     encoder_droit.reset();
 
-    encoder_angle_d = encoder_d * d_theta_deg;
-    encoder_angle_g = encoder_g * d_theta_deg;
+    encoder_angle_d += encoder_d * d_theta_deg;
+    encoder_angle_g -= encoder_g * d_theta_deg;
 
-    encoder_vitesse_d = ((float)(encoder_d)) / ((float)(tick_encoder)*6); // tr/min
-    encoder_vitesse_g = ((float)(encoder_g)) / ((float)(tick_encoder)*6); //((float)(encoder_g) * 60.0) / ((float)(tick_encoder)*360.)
+    encoder_vitesse_d = ((float)(encoder_d)) / ((float)(tick_encoder)*6);  // tr/min
+    encoder_vitesse_g = -((float)(encoder_g)) / ((float)(tick_encoder)*6); //((float)(encoder_g) * 60.0) / ((float)(tick_encoder)*360.)
 
-    dist_gauche = - (float) (encoder_g) * d_theta_rad * encoder_diametre; // en m
-    dist_droit =  (float) (encoder_d) * d_theta_rad * encoder_diametre;  // en m
+    dist_gauche = -(float)(encoder_g)*d_theta_rad * encoder_diametre; // en m
+    dist_droit = (float)(encoder_d)*d_theta_rad * encoder_diametre;   // en m
 
     dist_robot = (dist_droit + dist_gauche) / 2.;
 }
@@ -33,9 +33,8 @@ void calculs_encoder()
 void calcul_pos_xy()
 {
     // Fonction utilisée poencoder_dur le traitement périodique des encoders
-    
-    
-    beta += (dist_droit - dist_gauche) / (2*entre_axe);
+
+    beta += (dist_droit - dist_gauche) / (2 * entre_axe);
     pos_x += 10 * (dist_robot * sinf(beta));
     pos_y -= 10 * (dist_robot * cosf(beta));
 }
