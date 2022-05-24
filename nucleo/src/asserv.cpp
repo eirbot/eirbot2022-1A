@@ -69,30 +69,28 @@ uint8_t sature(float valeur, uint8_t min, uint8_t max)
     {
         return max;
     }
-    return (uint8_t) valeur;
+    return (uint8_t)valeur;
 }
 
 void asserv_periodique()
 {
     if (asserv_arret == 0)
     {
-        
         float erreur_angle = dest_alpha - ((encoder_angle_d - encoder_angle_g));
-        float consignef = PI(P_angle(erreur_angle) - (encoder_vitesse_d + encoder_vitesse_g));
-
+        float consignef = P_angle(erreur_angle);
         bool sens = 1;
-        if (consignef > 0)
+        if (consignef < 0)
         {
-            sens = 1;
+            sens = 0;
         }
-        
-        uint8_t consigne = sature(fabs(consignef), 0, 24);
-        printf("%d\n", consigne);
+
+        uint8_t consigne = sature(consignef, 0, 8);
+
         roue_d(consigne, sens);
         roue_g(consigne, !sens);
     }
     else
     {
-        // secu
+        // arret de l'asserv
     }
 }

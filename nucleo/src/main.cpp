@@ -23,7 +23,6 @@ int main()
 
     while (fdc_arg == 1) // on attends le fdc avec la tirette
     {
-        printf("coucou\n");
         if (baton_parole_afficheur == 1)
         {
             envoie_afficheur(0, 1, 0, 0);
@@ -31,24 +30,26 @@ int main()
     }
 
     chronometer.start();
+    odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
 
+    bool envoie_msg_1 = 0;
     while (chronometer.elapsed_time().count() < (int64_t)(5 * 1e6))
     {
-        printf("salut\n");
-
-        if (baton_parole_afficheur == 1)
+        if (envoie_msg_1 == 0)
         {
             envoie_afficheur(0, 0, 1, 0);
+            envoie_msg_1 = 1;
         }
     }
 
-    odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
-
+    bool envoie_msg_2 = 0;
+    bool envoie_msg_3 = 0;
     while (chronometer.elapsed_time().count() < (int64_t)(95 * 1e6))
     {
-        if (baton_parole_afficheur == 1)
+        if (envoie_msg_2 == 0)
         {
-            envoie_afficheur(0, 0, 1, 0);
+            envoie_afficheur(0, 0, 2, 0);
+            envoie_msg_2 = 1;
         }
         etalonnage_xybeta();
         avancer_primitif(5);
@@ -59,24 +60,18 @@ int main()
         wait_us(5e6);
         asserv_arret = 1;
 
-        if (baton_parole_afficheur == 1)
-        {
-            envoie_afficheur(0, 0, 2, 0);
-        }
-
         wait_us(5e6);
 
-        if (baton_parole_afficheur == 1)
+        if (chronometer.elapsed_time().count() > 80e6 && envoie_msg_3 == 0)
         {
             envoie_afficheur(0, 0, 3, 0);
+            envoie_msg_3 = 1;
         }
-        break;
     }
     chronometer.stop();
 
     while (1)
     {
-
         // envoie_afficheur(0,0,1,0);
         // wait_us(5e6);
         // envoie_afficheur(0,0,2,0);

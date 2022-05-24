@@ -134,7 +134,6 @@ void lecture_bras(bool debug)
     }
 }
 
-
 void lecture_afficheur(bool debug)
 {
     if (afficheur.readable())
