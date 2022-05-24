@@ -41,7 +41,21 @@ int main()
 
     while (chronometer.elapsed_time().count() < (int64_t)(95 * 1e6))
     {
+        etalonnage_xybeta();
         
+        if (baton_parole_afficheur == 1)
+        {
+            envoie_afficheur(0, 2, 0, 0);
+        }
+        
+        wait_us(5e6);
+
+        if (baton_parole_afficheur == 1)
+        {
+            envoie_afficheur(0, 3, 0, 0);
+        }
+        break;
+
     }
     chronometer.stop();
 

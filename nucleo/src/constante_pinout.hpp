@@ -112,7 +112,10 @@ const uint32_t periode_securite = 1000; // en us
 const float K_PI_p = 0.0401;
 const float K_PI_i = 0.425;
 
-const float K_P_p = 1;
+const float K_P_p = 1.;
+
+const float K_P_angle = 1.;
+const float K_P_dist = 1.;
 
 // sécurité
 const float dist_seuil = 0.5; // à vérifier
@@ -144,12 +147,18 @@ extern volatile bool asserv_arret;
 // odometrie / asserv
 extern volatile int32_t encoder_d; // tick de encoder droit
 extern volatile int32_t encoder_g; // tick de encoder gauche
+extern volatile float encoder_angle_d; // vitesse de l'encoder droit
+extern volatile float encoder_angle_g; //  vitesse de l'encoder gauche
 extern volatile float encoder_vitesse_d; // vitesse de l'encoder droit
 extern volatile float encoder_vitesse_g; //  vitesse de l'encoder gauche
 
 extern volatile float pos_x; // position actuelle en x
 extern volatile float pos_y; // position actuelle en y
 extern volatile float beta; // angle du robot par rapport au bord bas
+
+extern volatile float dist_droit;
+extern volatile float dist_gauche;
+extern volatile float dist_robot;
 
 extern volatile float dest_x; // destination voulu en x
 extern volatile float dest_y; // destination voulu en y
@@ -185,6 +194,7 @@ extern Ticker odometrie_traitement_periodique;
 extern Ticker asserv_traitement_periodique;
 extern Ticker serie_traitement_periodique;
 extern Ticker securite_traitement_periodique;
+
 // *****************************************************************************************************
 /***************************************
  ************* Fonctions ***************

@@ -1,10 +1,8 @@
 #ifndef odometrie_h
 #define odometrie_h
 
-void reset_xy(float x_pos, float y_pos); // remet la variable pos_xy à x_pos et y_pos
-void rest_beta(float angle); // réinitialise beta à une valeur
-void calcul_encoder(); 
-void calcul_vitesse();
+void reset_xybeta(float x_pos, float y_pos, float angle); // remet la variable pos_xy à x_pos et y_pos et beta à angle
+void calculs_encoder();
 void calcul_pos_xy(); 
 void odometrie_periodique();
 

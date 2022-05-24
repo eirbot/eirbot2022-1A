@@ -2,20 +2,30 @@
 #include "asserv.hpp"
 #include <math.h>
 
-float PI(float erreur)
+uint8_t PI(float erreur)
 {
     static float y_n1 = 0;
     float y_n = y_n1 + erreur * (K_PI_p + K_PI_i * (float)periode_asserv);
 
     y_n1 = y_n;
-    return y_n;
+    return (uint8_t) y_n;
 }
 
-float P(float erreur)
+uint8_t P(float erreur)
 {
     float y_n = K_P_p;
 
-    return y_n;
+    return (uint8_t) y_n;
+}
+
+uint8_t P_angle(float erreur)
+{
+    return (uint8_t) (K_P_angle * erreur);
+}
+
+uint8_t P_dist(float erreur)
+{
+    return (uint8_t) (K_P_dist * erreur);
 }
 
 void conversion_dalpha()
@@ -48,11 +58,25 @@ void conversion_dalpha()
     beta += increment;
 }
 
+uint8_t sature(uint8_t valeur, uint8_t min, uint8_t max)
+{
+    if (valeur < min)
+    {
+        return min;
+    }
+    if (valeur > max)
+    {
+        return max;
+    }
+    return valeur;
+}
+
 void asserv_periodique()
 {
     if (asserv_arret == 0)
     {
-        // code en cas d'urgence
+        //
+        
     }
     else
     {

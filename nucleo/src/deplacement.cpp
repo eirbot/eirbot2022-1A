@@ -1,5 +1,6 @@
 #include "constante_pinout.hpp"
 
+#include "odometrie.hpp"
 #include "deplacement.hpp"
 
 void avancer_primitif(uint16_t pwm)
@@ -26,12 +27,12 @@ void arret_moteur()
     pwm_gauche.pulsewidth_us(0);
 }
 
-void etalonnage_beta()
+void etalonnage_xybeta()
 {
     while (fdc[3] == 0 && fdc[4] == 0)
     {
         reculer_primitif(4);
     }
     arret_moteur();
-    beta = 0;
+    reset_xybeta(0.4,0.02,0);
 }

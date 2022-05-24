@@ -4,6 +4,6 @@
 void avancer_primitif(uint16_t pwm);
 void reculer_primitif(uint16_t pwm);
 void arret_moteur();
-void etalonnage_beta(); // prends du temps
+void etalonnage_xybeta(); // prends du temps
 
 #endif

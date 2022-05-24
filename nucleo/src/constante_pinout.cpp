@@ -48,12 +48,18 @@ volatile bool asserv_arret;
 
 volatile int32_t encoder_d;       // tick de encoder droit
 volatile int32_t encoder_g;       // tick de encoder gauche
+volatile float encoder_angle_d; // vitesse de l'encoder droit
+volatile float encoder_angle_g; //  vitesse de l'encoder gauche
 volatile float encoder_vitesse_d; // vitesse de l'encoder droit
 volatile float encoder_vitesse_g; //  vitesse de l'encoder gauche
 
 volatile float pos_x; // position actuelle en x
 volatile float pos_y; // position actuelle en y
 volatile float beta;  // angle du robot par rapport au bord bas
+
+volatile float dist_droit;
+volatile float dist_gauche;
+volatile float dist_robot;
 
 volatile float dest_x;     // destination voulu en x
 volatile float dest_y;     // destination voulu en y
@@ -98,8 +104,13 @@ void init_globale()
 
     encoder_d = 0;
     encoder_g = 0;
+    encoder_angle_d = 0.;
+    encoder_angle_g = 0.; 
     encoder_vitesse_d = 0.;
     encoder_vitesse_g = 0.;
+    dist_droit = 0.;
+    dist_gauche = 0.;
+    dist_robot = 0.;
     pos_x = 0.;
     pos_y = 0.;
     dest_x = 0.;
