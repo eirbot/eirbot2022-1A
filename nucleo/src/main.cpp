@@ -21,10 +21,9 @@ int main()
     serie_traitement_periodique.attach_us(&lecture_arduinos, periode_serie);
     securite_traitement_periodique.attach_us(&securite_periodique, periode_securite);
 
-    wait_us(5e6);
-
     while (fdc_arg == 1) // on attends le fdc avec la tirette
     {
+        printf("coucou\n");
         if (baton_parole_afficheur == 1)
         {
             envoie_afficheur(0, 1, 0, 0);
@@ -35,6 +34,8 @@ int main()
 
     while (chronometer.elapsed_time().count() < (int64_t)(5 * 1e6))
     {
+        printf("salut\n");
+
         if (baton_parole_afficheur == 1)
         {
             envoie_afficheur(0, 0, 1, 0);

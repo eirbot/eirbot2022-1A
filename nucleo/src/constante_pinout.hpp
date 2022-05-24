@@ -29,8 +29,8 @@
 // Fin de course
 #define _fdc_avant_gauche PB_3   // D3 | EXTI3
 #define _fdc_avant_droit PA_0    // A0 | EXTI0
-#define _fdc_arriere_droit PB_1  // en face de D7 | EXTI1
-#define _fdc_arriere_gauche PD_2 // avant dernier droit [haut gauche] | EXTI2
+#define _fdc_arriere_droit PD_2 // avant dernier droit [haut gauche] | EXTI2
+#define _fdc_arriere_gauche PB_1  // en face de D7 | EXTI1
 
 #define _fdc_galerie PC_5 // diagonale basse D14 | EXTI5
 
