@@ -90,6 +90,9 @@ volatile bool bras_arret;
 volatile bool baton_parole_bras; // 0 ne parle pas à la nucléo
 volatile bool baton_parole_afficheur; // 0 ne parle pas à la nucléo
 
+volatile bool condition_dist;
+volatile bool condition_fdc;
+
 // Chronomètre
 Timer chronometer; // chronomètre pour le départ
 
@@ -134,6 +137,9 @@ void init_globale()
     pos_y = 0.;
 
     beta = 0.;
+
+    condition_dist = 0;
+    condition_fdc = 0;
 
     // sécurité
     asserv_arret = 1;

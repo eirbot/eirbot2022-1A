@@ -61,8 +61,16 @@ int main()
             envoie_afficheur(0, 0, 2, 0);
             envoie_msg_2 = 1;
         }
-        
-        avancer_primitif(4);
+
+        if (condition_dist == 0)
+        {
+            avancer_primitif(5);
+        }
+        else 
+        {
+            break;
+        }
+        printf("%d %d %d %d %d \n",condition_dist, dist_arg, dist_ard, dist_avg, dist_avd);
 
         if (chronometer.elapsed_time().count() > (int64_t)(85 * 1e6) && envoie_msg_3 == 0)
         {

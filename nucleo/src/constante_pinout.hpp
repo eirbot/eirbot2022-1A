@@ -27,10 +27,10 @@
 #define _dir_gauche PA_4 // A2
 
 // Fin de course
-#define _fdc_avant_gauche PB_3   // D3 | EXTI3
+#define _fdc_avant_gauche PB_1   // en face de D7 | EXTI1
 #define _fdc_avant_droit PA_0    // A0 | EXTI0
-#define _fdc_arriere_droit PD_2 // avant dernier droit [haut gauche] | EXTI2
-#define _fdc_arriere_gauche PB_1  // en face de D7 | EXTI1
+#define _fdc_arriere_droit PD_2  // avant dernier droit [haut gauche] | EXTI2
+#define _fdc_arriere_gauche PB_3 // D3 | EXTI3
 
 #define _fdc_galerie PC_5 // diagonale basse D14 | EXTI5
 
@@ -52,8 +52,8 @@
 // Capteur de distance : Analogiques
 #define _dist_avant_gauche PC_1   // A4
 #define _dist_avant_droit PC_0    // A5
-#define _dist_arriere_gauche PC_2 // en face de A4
-#define _dist_arriere_droit PC_4  // en face de D2
+#define _dist_arriere_gauche PC_4 // en face de D2
+#define _dist_arriere_droit PC_2  // en face de A4
 
 // ****************************************************************************************************
 /***************************************
@@ -118,9 +118,8 @@ const float K_P_dist = 0.5;
 const float C_dist_d = 1.; // correction pour la roue d
 const float C_dist_g = 1.; // correction pour la roue g
 
-
 // sécurité
-const float dist_seuil = 0.55; // à vérifier
+const float dist_seuil = 0.35; // à vérifier
 
 // port série
 const uint16_t buffer_size = 32;
@@ -191,6 +190,9 @@ extern volatile bool bras_arret;
 
 extern volatile bool baton_parole_bras;      // 0 ne parle pas à l'arduino
 extern volatile bool baton_parole_afficheur; // 0 ne parle pas à l'arduino
+
+extern volatile bool condition_dist;
+extern volatile bool condition_fdc;
 
 // *****************************************************************************************************
 /***************************************
