@@ -18,6 +18,10 @@ int main()
     init_fdc();
     init_pwm();
 
+    /***************************************
+     ************** avant match ************
+     ****************************************/
+
     serie_traitement_periodique.attach_us(&lecture_arduinos, periode_serie);
     securite_traitement_periodique.attach_us(&securite_periodique, periode_securite);
 
@@ -32,7 +36,7 @@ int main()
 
     /***************************************
      ************** début match ************
-    ****************************************/ 
+     ****************************************/
     chronometer.start();
     odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
 
@@ -47,7 +51,7 @@ int main()
     }
     /***************************************
      **** Tant qu'y a pelouse y a match ****
-    ****************************************/
+     ****************************************/
     bool envoie_msg_2 = 0;
     bool envoie_msg_3 = 0;
     while (chronometer.elapsed_time().count() < (int64_t)(95 * 1e6))
@@ -57,18 +61,10 @@ int main()
             envoie_afficheur(0, 0, 2, 0);
             envoie_msg_2 = 1;
         }
-        etalonnage_xybeta();
-        avancer_primitif(5);
-        wait_us(1e6);
-        arret_moteur();
-        asserv_arret = 0;
-        dest_alpha = 90;
-        wait_us(5e6);
-        asserv_arret = 1;
+        
+        avancer_primitif(4);
 
-        wait_us(5e6);
-
-        if (chronometer.elapsed_time().count() > 80e6 && envoie_msg_3 == 0)
+        if (chronometer.elapsed_time().count() > (int64_t)(85 * 1e6) && envoie_msg_3 == 0)
         {
             envoie_afficheur(0, 0, 3, 0);
             envoie_msg_3 = 1;
@@ -78,7 +74,6 @@ int main()
 
     while (1)
     {
-        arret(moteur());
-
+        arret_moteur();
     }
 }

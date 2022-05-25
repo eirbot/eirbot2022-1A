@@ -87,6 +87,7 @@ void fdc_gal_0()
 void lecture_securite()
 {
     bool condition_fdc = 0;
+    bool condition_dist = 0;
     
     condition_fdc |= fdc_avg;
     condition_fdc |= fdc_avd;
@@ -95,7 +96,7 @@ void lecture_securite()
 
     if (capt_distance == 1)
     {
-        bool condition_dist = 0;
+        
         condition_dist |= dist_avg;
         condition_dist |= dist_avd;
         condition_dist |= dist_arg;
@@ -105,7 +106,7 @@ void lecture_securite()
     if (condition_dist == 1)
     {
         arret_moteur();
-        urgence_bouton = 1;
+        //urgence_bouton = 1;
     }
     else
     {

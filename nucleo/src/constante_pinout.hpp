@@ -54,8 +54,8 @@
 #define _dist_avant_droit PC_0    // A5
 #define _dist_arriere_gauche PC_2 // en face de A4
 #define _dist_arriere_droit PC_4  // en face de D2
-// *****************************************************************************************************
 
+// ****************************************************************************************************
 /***************************************
  *************   PINOUT  ***************
  ****************************************/
@@ -120,7 +120,7 @@ const float C_dist_g = 1.; // correction pour la roue g
 
 
 // sécurité
-const float dist_seuil = 0.5; // à vérifier
+const float dist_seuil = 0.55; // à vérifier
 
 // port série
 const uint16_t buffer_size = 32;
