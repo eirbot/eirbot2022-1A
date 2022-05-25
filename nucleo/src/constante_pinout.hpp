@@ -111,11 +111,13 @@ const uint32_t periode_securite = 1000; // en us
 // asserv
 const float K_PI_p = 0.0447;
 const float K_PI_i = 0.421;
-
 const float K_P_p = 1.;
 
-const float K_P_angle = 1000.;
-const float K_P_dist = 1.;
+const float K_P_angle = 0.1;
+const float K_P_dist = 0.5;
+const float C_dist_d = 1.; // correction pour la roue d
+const float C_dist_g = 1.; // correction pour la roue g
+
 
 // sécurité
 const float dist_seuil = 0.5; // à vérifier
@@ -159,7 +161,8 @@ extern volatile float encoder_angle_d;   // vitesse de l'encoder droit
 extern volatile float encoder_angle_g;   //  vitesse de l'encoder gauche
 extern volatile float encoder_vitesse_d; // vitesse de l'encoder droit
 extern volatile float encoder_vitesse_g; //  vitesse de l'encoder gauche
-
+extern volatile float encoder_dist_d;
+extern volatile float encoder_dist_g;
 extern volatile float pos_x; // position actuelle en x
 extern volatile float pos_y; // position actuelle en y
 extern volatile float beta;  // angle du robot par rapport au bord bas

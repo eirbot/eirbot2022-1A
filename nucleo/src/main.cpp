@@ -25,10 +25,14 @@ int main()
     {
         if (baton_parole_afficheur == 1)
         {
+            printf("recopie afficheur faite");
             envoie_afficheur(0, 1, 0, 0);
         }
     }
 
+    /***************************************
+     ************** début match ************
+    ****************************************/ 
     chronometer.start();
     odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
 
@@ -41,7 +45,9 @@ int main()
             envoie_msg_1 = 1;
         }
     }
-
+    /***************************************
+     **** Tant qu'y a pelouse y a match ****
+    ****************************************/
     bool envoie_msg_2 = 0;
     bool envoie_msg_3 = 0;
     while (chronometer.elapsed_time().count() < (int64_t)(95 * 1e6))
@@ -72,11 +78,7 @@ int main()
 
     while (1)
     {
-        // envoie_afficheur(0,0,1,0);
-        // wait_us(5e6);
-        // envoie_afficheur(0,0,2,0);
-        // wait_us(5e6);
-        // envoie_afficheur(0,0,3,0);
-        // wait_us(5e6);
+        arret(moteur());
+
     }
 }

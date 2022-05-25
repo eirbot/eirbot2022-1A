@@ -76,21 +76,39 @@ void asserv_periodique()
 {
     if (asserv_arret == 0)
     {
-        float erreur_angle = dest_alpha - ((encoder_angle_d - encoder_angle_g));
-        float consignef = P_angle(erreur_angle);
-        bool sens = 1;
-        if (consignef < 0)
+        if (dest_alpha != 1001.)
         {
-            sens = 0;
+            float erreur_angle = dest_alpha - (encoder_angle_d - encoder_angle_g);
+            float consignef = P_angle(erreur_angle);
+            bool sens = 1;
+            if (consignef < 0)
+            {
+                sens = 0;
+            }
+
+            uint8_t consigne = sature(consignef, 0, 8);
+
+            roue_d(consigne, sens);
+            roue_g(consigne, !sens);
         }
+        if (dest_dist != 1001.)
+        {
+            float erreur_dist = dest_dist - ((encoder_dist_d + encoder_dist_g)/2);
+            float consignef = P_dist(erreur_dist);
+            bool sens = 1;
+            if (consignef < 0)
+            {
+                sens = 0;
+            }
 
-        uint8_t consigne = sature(consignef, 0, 8);
+            uint8_t consigne = sature(consignef, 0, 10);
 
-        roue_d(consigne, sens);
-        roue_g(consigne, !sens);
+            roue_d(consigne*C_dist_d, sens);
+            roue_g(consigne*C_dist_g, sens); 
+        }
     }
     else
     {
-        // arret de l'asserv
+    
     }
 }

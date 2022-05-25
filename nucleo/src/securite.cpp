@@ -47,47 +47,38 @@ void fdc_avg_1()
 {
     fdc_avg = 1;
 }
-
 void fdc_avd_1()
 {
     fdc_avd = 1;
 }
-
 void fdc_ard_1()
 {
     fdc_ard = 1;
 }
-
 void fdc_arg_1()
 {
     fdc_arg = 1;
 }
-
 void fdc_gal_1()
 {
     fdc_gal = 1;
 }
-
 void fdc_avg_0()
 {
     fdc_avg = 0;
 }
-
 void fdc_avd_0()
 {
     fdc_avd = 0;
 }
-
 void fdc_ard_0()
 {
     fdc_ard = 0;
 }
-
 void fdc_arg_0()
 {
     fdc_arg = 0;
 }
-
 void fdc_gal_0()
 {
     fdc_gal = 0;
@@ -96,7 +87,7 @@ void fdc_gal_0()
 void lecture_securite()
 {
     bool condition_fdc = 0;
-    bool condition_dist = 0;
+    
     condition_fdc |= fdc_avg;
     condition_fdc |= fdc_avd;
     condition_fdc |= fdc_arg;
@@ -104,21 +95,22 @@ void lecture_securite()
 
     if (capt_distance == 1)
     {
+        bool condition_dist = 0;
         condition_dist |= dist_avg;
         condition_dist |= dist_avd;
         condition_dist |= dist_arg;
         condition_dist |= dist_ard;
     }
 
-    // if (condition_fdc == 1 ||condition_dist == 1)
-    // {
-    //     arret_moteur();
-    //     asserv_arret = 1;
-    // }
-    // else
-    // {
-    //     asserv_arret = 0;
-    // }
+    if (condition_dist == 1)
+    {
+        arret_moteur();
+        urgence_bouton = 1;
+    }
+    else
+    {
+        
+    }
 }
 
 void asserv_arret_flag()

@@ -20,26 +20,46 @@ void calculs_encoder()
 
     if (asserv_arret == 0)
     {
-        if (encoder_angle_d > 180.)
+        if (dest_alpha != 1001.)
         {
-            encoder_angle_d -= 180.;
+            float butee = 180.;
+            if (encoder_angle_d > butee)
+            {
+                encoder_angle_d -= butee;
+            }
+            else if (encoder_angle_d < -butee)
+            {
+                encoder_angle_d += butee;
+            }
+            if (encoder_angle_g > butee)
+            {
+                encoder_angle_g -= butee;
+            }
+            else if (encoder_angle_g < -butee)
+            {
+                encoder_angle_g += butee;
+            }
+            encoder_angle_d += (float) encoder_d * d_theta_deg;
+            encoder_angle_g += - (float) encoder_g * d_theta_deg;
         }
-        else if (encoder_angle_d < -180.)
+        else 
         {
-            encoder_angle_d += 180.;
-        }
-        if (encoder_angle_g > 180.)
-        {
-            encoder_angle_g -= 180.;
-        }
-        else if (encoder_angle_g < -180.)
-        {
-            encoder_angle_g += 180.;
+            encoder_angle_d = 0.;
+            encoder_angle_g = 0.;
         }
 
-        encoder_angle_d += encoder_d * d_theta_deg;
-        encoder_angle_g += -encoder_g * d_theta_deg;
+        if (dest_dist != 1001.)
+        {
+            encoder_dist_d += (float) encoder_d * d_theta_rad * encoder_diametre;;
+            encoder_dist_g += - (float) encoder_g * d_theta_rad * encoder_diametre;
+        }
+        else
+        {
+            encoder_dist_g = 0.;
+            encoder_dist_d = 0.;
+        }
     }
+
 
     encoder_vitesse_d = ((float)(encoder_d)) / ((float)(tick_encoder)*6);  // tr/min
     encoder_vitesse_g = -((float)(encoder_g)) / ((float)(tick_encoder)*6); //((float)(encoder_g) * 60.0) / ((float)(tick_encoder)*360.)
