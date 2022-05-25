@@ -18,9 +18,41 @@ int main()
     init_fdc();
     init_pwm();
 
-    /***************************************
-     ************** avant match ************
-     ****************************************/
+    serie_traitement_periodique.attach_us(&lecture_arduinos, periode_serie);
+
+    while (fdc_arg == 1) // on attends le fdc avec la tirette
+    {
+
+        printf("K_P_dist : %.3f \t c_d : %.3f \t c_d : %.3f \n", K_P_dist, C_dist_d, C_dist_g);
+    }
+
+    chronometer.start();
+    odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
+    asserv_traitement_periodique.attach_us(&asserv_periodique, periode_asserv);
+
+    while (chronometer.elapsed_time().count() < (int64_t)(20 * 1e6))
+    {
+        asserv_arret = 0;
+        dest_dist = 2.;
+        printf("R : %2.3f G : %2.3f ; consigneR : %2d ; consigneG :G %2d\n", encoder_dist_d, encoder_dist_g, pwm_droit.read_pulsewitdth_us(), pwm_gauche.read_pulsewitdth_us());
+    }
+    asserv_arret = 1;
+    while (1)
+    {
+        arret_moteur();
+        printf("D : %f G : %f\n", encoder_dist_d, encoder_dist_g);
+    }
+}
+
+/*
+
+init_globale();
+    init_fdc();
+    init_pwm();
+
+    // **************************************
+    // ************* avant match ************
+    // **************************************
 
     serie_traitement_periodique.attach_us(&lecture_arduinos, periode_serie);
     securite_traitement_periodique.attach_us(&securite_periodique, periode_securite);
@@ -34,9 +66,9 @@ int main()
         }
     }
 
-    /***************************************
-     ************** début match ************
-     ****************************************/
+    // ***************************************
+    // ************* début match ************
+    // **************************************
     chronometer.start();
     odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
 
@@ -49,9 +81,9 @@ int main()
             envoie_msg_1 = 1;
         }
     }
-    /***************************************
-     **** Tant qu'y a pelouse y a match ****
-     ****************************************/
+    // **************************************
+    // *** Tant qu'y a pelouse y a match ****
+    // **************************************
     bool envoie_msg_2 = 0;
     bool envoie_msg_3 = 0;
     while (chronometer.elapsed_time().count() < (int64_t)(95 * 1e6))
@@ -66,7 +98,7 @@ int main()
         {
             break;
         }
-        else 
+        else
         {
             avancer_primitif(5);
         }
@@ -84,4 +116,5 @@ int main()
     {
         arret_moteur();
     }
-}
+
+*/

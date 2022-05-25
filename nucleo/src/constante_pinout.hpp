@@ -13,10 +13,10 @@
  *************   PINS  *****************
  ****************************************/
 // Encodeurs
-#define _encodeur_droit_A PA_6  // D12 TIM3_ch1
-#define _encodeur_droit_B PA_7  // D11 TIM3_ch2
-#define _encodeur_gauche_A PB_6 // D10 TIM4_ch1
-#define _encodeur_gauche_B PB_7 // en face de GND (celui du bas) TIM4_ch2
+#define _encodeur_gauche_A PA_6  // D12 TIM3_ch1
+#define _encodeur_gauche_B PA_7  // D11 TIM3_ch2
+#define _encodeur_droit_A PB_6 // D10 TIM4_ch1
+#define _encodeur_droit_B PB_7 // en face de GND (celui du bas) TIM4_ch2
 
 // Moteur Droit
 #define _pwm_droit PB_8 // D15 | TIM2_ch1
@@ -114,12 +114,12 @@ const float K_PI_i = 0.421;
 const float K_P_p = 1.;
 
 const float K_P_angle = 0.1;
-const float K_P_dist = 0.5;
-const float C_dist_d = 1.; // correction pour la roue d
-const float C_dist_g = 1.; // correction pour la roue g
+const float K_P_dist = 2.;
+const float C_dist_d = 2.4; // correction pour la roue d // INVERSE
+const float C_dist_g = 1.4; // correction pour la roue g // INVERSE
 
 // sécurité
-const float dist_seuil = 0.35; // à vérifier
+const float dist_seuil = 0.35; 
 
 // port série
 const uint16_t buffer_size = 32;

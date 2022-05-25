@@ -104,6 +104,7 @@ Ticker securite_traitement_periodique;
 
 void init_globale()
 {
+
     fdc_avg = fdc_avant_gauche.read();
     fdc_avd = fdc_avant_droit.read();
     fdc_arg = fdc_arriere_gauche.read();
@@ -131,8 +132,8 @@ void init_globale()
     pos_y = 0.;
     dest_x = 0.;
     dest_y = 0.;
-    dest_dist = 0.;
-    dest_alpha = 0.;
+    dest_dist = 1001.;
+    dest_alpha = 1001.;
     pos_x = 0.;
     pos_y = 0.;
 

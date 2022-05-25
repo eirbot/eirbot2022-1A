@@ -40,7 +40,7 @@ void calculs_encoder()
                 encoder_angle_g += butee;
             }
             encoder_angle_d += (float) encoder_d * d_theta_deg;
-            encoder_angle_g += - (float) encoder_g * d_theta_deg;
+            encoder_angle_g += (float) encoder_g * d_theta_deg;
         }
         else 
         {
@@ -50,8 +50,8 @@ void calculs_encoder()
 
         if (dest_dist != 1001.)
         {
-            encoder_dist_d += (float) encoder_d * d_theta_rad * encoder_diametre;;
-            encoder_dist_g += - (float) encoder_g * d_theta_rad * encoder_diametre;
+            encoder_dist_d -= (float) encoder_d * d_theta_rad * encoder_diametre;;
+            encoder_dist_g -= (float) encoder_g * d_theta_rad * encoder_diametre;
         }
         else
         {

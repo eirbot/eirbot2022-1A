@@ -103,17 +103,6 @@ void lecture_securite()
     }
 }
 
-void asserv_arret_flag()
-{
-    if (asserv_arret == 1)
-    {
-        asserv_traitement_periodique.detach();
-    }
-    else
-    {
-        asserv_traitement_periodique.attach_us(&asserv_periodique, periode_asserv);
-    }
-}
 // *****************************************************************************************************
 
 /***************************************
@@ -127,5 +116,4 @@ void securite_periodique()
         lecture_GP2();
     }
     lecture_securite();
-    asserv_arret_flag();
 }
