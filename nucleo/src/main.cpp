@@ -62,13 +62,13 @@ int main()
             envoie_msg_2 = 1;
         }
 
-        if (condition_dist == 0)
+        if (condition_dist == 1 ||condition_fdc == 1)
         {
-            avancer_primitif(5);
+            break;
         }
         else 
         {
-            break;
+            avancer_primitif(5);
         }
         printf("%d %d %d %d %d \n",condition_dist, dist_arg, dist_ard, dist_avg, dist_avd);
 
