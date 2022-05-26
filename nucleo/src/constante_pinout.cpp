@@ -141,8 +141,8 @@ void init_globale()
     pos_y = 0.;
     dest_x = 0.;
     dest_y = 0.;
-    dest_dist = 1001.;
-    dest_alpha = 1001.;
+    dest_dist = 2742.;
+    dest_alpha = 2742.;
     pos_x = 0.;
     pos_y = 0.;
 

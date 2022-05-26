@@ -136,6 +136,7 @@ const uint16_t tick_encoder = 4096;
 const float roue_diametre = 0.062; // en m
 const float d_theta_rad = (2 * M_PI) / ((float)(tick_encoder));
 const float d_theta_deg = (360.) / ((float)(tick_encoder));
+const float radtodeg = 180./M_PI;
 
 // *****************************************************************************************************
 

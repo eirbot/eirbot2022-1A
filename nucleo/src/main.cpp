@@ -11,6 +11,18 @@
 
 DigitalOut led(LED1);                  // led sur la nucleo
 BufferedSerial pc(USBTX, USBRX, 9600); // liaison avec le pc
+InterruptIn boutonUser(USER_BUTTON,PullDown); // bouton utilisateur
+bool bouton;
+
+void bouton_1()
+{
+    bouton = 1;
+}
+
+void bouton_0()
+{
+    bouton = 0;
+}
 
 void variable_glob_directe()
 {
@@ -57,6 +69,12 @@ void variable_glob_directe()
 
 int main()
 {
+    // temporaire
+    bouton = 0;
+    boutonUser.rise(&bouton_1);
+    boutonUser.fall(&bouton_0);
+    // end temporaire
+
     init_globale();
     init_fdc();
     init_pwm();
@@ -82,6 +100,7 @@ int main()
     asserv_arret = 0; // lance l'asserv
 
     float consigne_dist = 34.;
+    uint8_t consigne_mot = 5;
 
     while ((encoder_dist_d < consigne_dist) || (chronometer.elapsed_time().count() < (int64_t)(15 * 1e6)))
     {
@@ -94,23 +113,23 @@ int main()
             }
             asserv_arret = 0; //réactive l'asserv
         }
+        avancer_primitif(consigne_mot);
         printf("angle_d %3.2f angle_g %3.2f \t dist_d %3.2f  dist_g %3.2f \t c_d %2d c_g %2d\n", encoder_angle_d, encoder_angle_g, encoder_dist_d, encoder_dist_g, pwm_droit.read_pulsewitdth_us(), pwm_gauche.read_pulsewitdth_us());
     }
-// !****************************  BLOQUE  ****************************!
+
+// !****************************  bouton  ****************************!
+
     while (1)
     {
         // bloque ici
     }
+
 
     float dest_encoder = 10.;
     // float pas_dest_encoder = 1.5;
     uint8_t consigne_test = 5;
     while (encoder_dist_d < dest_encoder || encoder_dist_g < dest_encoder)
     {
-        if (condition_dist == 1)
-        {
-            break;
-        }
         avancer_primitif(consigne_test);
         printf("D : %3.2f \t G : %3.2f \t\t D  %3.2f G  %3.2f\n", encoder_dist_d, encoder_dist_g, dist_droit, dist_gauche);
     }

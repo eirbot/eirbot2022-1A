@@ -20,7 +20,7 @@ void calculs_encoder()
 
     if (asserv_arret == 0)
     {
-        if (dest_dist != 1001. || dest_alpha != 1001.)
+        if (dest_dist != 2742. || dest_alpha != 2742.)
         {
             // float butee = 180.;
             // if (encoder_angle_d > butee)
@@ -48,7 +48,7 @@ void calculs_encoder()
             encoder_angle_g = 0.;
         }
 
-        if (dest_dist != 1001. || dest_alpha != 1001.)
+        if (dest_dist != 2742. || dest_alpha != 2742.)
         {
             encoder_dist_d -= (float) (encoder_d * d_theta_rad * roue_diametre);
             encoder_dist_g -= (float) (encoder_g * d_theta_rad * roue_diametre);
