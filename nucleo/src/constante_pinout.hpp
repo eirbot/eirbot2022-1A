@@ -19,12 +19,12 @@
 #define _encodeur_droit_B PB_7 // en face de GND (celui du bas) TIM4_ch2
 
 // Moteur Droit
-#define _pwm_droit PB_8 // D15 | TIM2_ch1
-#define _dir_droit PB_9 // D14
+#define _pwm_gauche PB_8 // D15 | TIM2_ch1
+#define _dir_gauche PB_9 // D14
 
 // Moteur Gauche
-#define _pwm_gauche PA_1 // A1 | TIM2_ch2
-#define _dir_gauche PA_4 // A2
+#define _pwm_droit PA_1 // A1 | TIM2_ch2
+#define _dir_droit PA_4 // A2
 
 // Fin de course
 #define _fdc_avant_gauche PB_1   // en face de D7 | EXTI1
@@ -115,8 +115,11 @@ const float K_P_p = 1.;
 
 const float K_P_angle = 0.1;
 const float K_P_dist = 2.;
-const float C_dist_d = 2.4; // correction pour la roue d // INVERSE
-const float C_dist_g = 1.4; // correction pour la roue g // INVERSE
+const float C_dist_d = 0.5*(1.0); // correction pour la roue d 
+const float C_dist_g = 0.5*(1.35); // correction pour la roue g 
+
+const float correction_dist = 1.; 
+
 
 // sécurité
 const float dist_seuil = 0.35; 
@@ -129,8 +132,8 @@ const uint16_t baud_rate = 9600;
 const float entre_axe = 0.3824; // en m
 
 // Encoder :
-const uint16_t tick_encoder = 1024;
-const float encoder_diametre = 0.02984; // en m
+const uint16_t tick_encoder = 4096;
+const float roue_diametre = 0.062; // en m
 const float d_theta_rad = (2 * M_PI) / ((float)(tick_encoder));
 const float d_theta_deg = (360.) / ((float)(tick_encoder));
 
@@ -140,7 +143,12 @@ const float d_theta_deg = (360.) / ((float)(tick_encoder));
  ************* Var Globales *************
  ****************************************/
 // sécurité
-// extern volatile bool fdc[5]; // avg avd ard arg gal
+
+extern float eps;
+extern float Kp;
+extern float Ki;
+extern float cons;
+
 extern volatile bool fdc_avg;
 extern volatile bool fdc_avd;
 extern volatile bool fdc_ard;

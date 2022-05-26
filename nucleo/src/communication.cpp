@@ -264,9 +264,9 @@ void envoie_bras(bool arret, uint8_t processus_bras, bool replique, bool pompe_e
     }
 
     buffer_envoie[0] = nb_envoie;
-    if (afficheur.writable())
+    if (bras.writable())
     {
-        afficheur.write(buffer_envoie, 1);
+        bras.write(buffer_envoie, 1);
         if (debug)
         {
             printf("numero envoyé au bras : %d\n", nb_envoie);

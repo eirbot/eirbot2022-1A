@@ -20,27 +20,27 @@ void calculs_encoder()
 
     if (asserv_arret == 0)
     {
-        if (dest_alpha != 1001.)
+        if (dest_dist != 1001. || dest_alpha != 1001.)
         {
-            float butee = 180.;
-            if (encoder_angle_d > butee)
-            {
-                encoder_angle_d -= butee;
-            }
-            else if (encoder_angle_d < -butee)
-            {
-                encoder_angle_d += butee;
-            }
-            if (encoder_angle_g > butee)
-            {
-                encoder_angle_g -= butee;
-            }
-            else if (encoder_angle_g < -butee)
-            {
-                encoder_angle_g += butee;
-            }
-            encoder_angle_d += (float) encoder_d * d_theta_deg;
-            encoder_angle_g += (float) encoder_g * d_theta_deg;
+            // float butee = 180.;
+            // if (encoder_angle_d > butee)
+            // {
+            //     encoder_angle_d -= butee;
+            // }
+            // else if (encoder_angle_d < -butee)
+            // {
+            //     encoder_angle_d += butee;
+            // }
+            // if (encoder_angle_g > butee)
+            // {
+            //     encoder_angle_g -= butee;
+            // }
+            // else if (encoder_angle_g < -butee)
+            // {
+            //     encoder_angle_g += butee;
+            // }
+            encoder_angle_d -= (float) encoder_d * d_theta_deg;
+            encoder_angle_g -= (float) encoder_g * d_theta_deg;
         }
         else 
         {
@@ -48,10 +48,10 @@ void calculs_encoder()
             encoder_angle_g = 0.;
         }
 
-        if (dest_dist != 1001.)
+        if (dest_dist != 1001. || dest_alpha != 1001.)
         {
-            encoder_dist_d -= (float) encoder_d * d_theta_rad * encoder_diametre;;
-            encoder_dist_g -= (float) encoder_g * d_theta_rad * encoder_diametre;
+            encoder_dist_d -= (float) (encoder_d * d_theta_rad * roue_diametre);
+            encoder_dist_g -= (float) (encoder_g * d_theta_rad * roue_diametre);
         }
         else
         {
@@ -64,8 +64,8 @@ void calculs_encoder()
     encoder_vitesse_d = ((float)(encoder_d)) / ((float)(tick_encoder)*6);  // tr/min
     encoder_vitesse_g = -((float)(encoder_g)) / ((float)(tick_encoder)*6); //((float)(encoder_g) * 60.0) / ((float)(tick_encoder)*360.)
 
-    dist_gauche = -(float)(encoder_g)*d_theta_rad * encoder_diametre; // en m
-    dist_droit = (float)(encoder_d)*d_theta_rad * encoder_diametre;   // en m
+    dist_gauche = -(float)(encoder_g)*d_theta_rad * roue_diametre; // en m
+    dist_droit = (float)(encoder_d)*d_theta_rad * roue_diametre;   // en m
 
     dist_robot = (dist_droit + dist_gauche) / 2.;
 }

@@ -4,8 +4,8 @@
 #include "securite.hpp"
 
 // Encodeurs
-Encoder encoder_droit(TIM3);
-Encoder encoder_gauche(TIM4);
+Encoder encoder_droit(TIM4);
+Encoder encoder_gauche(TIM3);
 
 // Moteur droit
 PwmOut pwm_droit(_pwm_droit);
@@ -84,7 +84,7 @@ volatile char equipe;
 volatile bool capt_distance;
 volatile bool arbitre;
 volatile bool afficheur_arret;
-volatile bool bras_etat;
+volatile bool bras_etat; // 1 si dispo 0 sinon
 volatile bool bras_arret;
 
 volatile bool baton_parole_bras; // 0 ne parle pas à la nucléo
@@ -102,8 +102,17 @@ Ticker asserv_traitement_periodique;
 Ticker serie_traitement_periodique;
 Ticker securite_traitement_periodique;
 
+float eps;
+float Kp;
+float Ki;
+float cons;
+
 void init_globale()
 {
+    eps = 0.;
+    Kp = 1.;
+    Ki = 0.;
+    cons = 0.;
 
     fdc_avg = fdc_avant_gauche.read();
     fdc_avd = fdc_avant_droit.read();
@@ -154,7 +163,7 @@ void init_globale()
     equipe = 'V';
     capt_distance = 1; // par défaut on active les capteurs de distance
     arbitre = 0;       // par défaut on ne se met pas en mode arbitre
-    bras_etat = 1;     // disponible par défaut
+    bras_etat = 0;     // indisponible par défaut
 
     // Variable pour les ports série :
     for (int k = 0; k < buffer_size; k++)
