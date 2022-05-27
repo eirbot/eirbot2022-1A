@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "nucleo",
+			"path": "nucleo"
+		},
+		{
+			"name": "afficheur",
+			"path": "arduino\\afficheur"
+		},
+		{
+			"name": "bras",
+			"path": "arduino\\bras"
+		}
+	]
+}
