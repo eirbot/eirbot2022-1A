@@ -13,20 +13,17 @@ uint8_t processus_bras;
 bool arret, replique, pompe_ev;
 
 /*
-processus 3
-choper palais
-    inter 125
-    base 82
-    ventouse 132
+* choper palais
+     
 
-choper statuette
+* choper statuette
 
-transport
+* transport
     inter 83
     base 138
     ventouse 112
 
-repos
+*repos
 
 
 */
@@ -176,7 +173,7 @@ void lecture_nucleo(int debug)
 int delay_opti(uint32_t periode)
 {
     uint32_t kro = millis();
-    while ((millis() - kro) <= 300)
+    while ((millis() - kro) <= periode)
     {
         lecture_nucleo(0);
         if (arret == 1)
@@ -313,6 +310,9 @@ int processus3()
 
 int replique_depose()
 {
+    delay_opti(200);
+    rep.write(1);
+    delay_opti(200);
 }
 
 // !********************** SETUP **********************!
@@ -373,11 +373,11 @@ void setup()
         //     //delay(1000);
         // }
 
-        rep.write(179); // maintient de la réplique
+        rep.write(47); // maintient de la réplique
     }
     while (1)
     {
-        //servo au bon endroit 
+        // servo au bon endroit
     }
 }
 // !********************** LOOP **********************!
@@ -391,18 +391,23 @@ void loop()
         lecture_nucleo(0);
         digitalWrite(_pompe, LOW);
         digitalWrite(_ev, LOW);
+        processus_bras = 0;
     }
 
     if (replique == 1)
     {
-        rep.write(130);
+        Serial.println("Réplique");
 
-        replique = 0;
-        while (nucleo.availableForWrite() == 0)
+        replique_depose();
+
+        int condition = delay_opti(1000);
+        if (condition == 0)
         {
-            // on boucle tant qu'on peut pas envoyer un msg
+            return 0;
         }
+        replique = 0;
         nucleo.write(2);
+        Serial.println("Fin réplique");
     }
 
     if (processus_bras != 0)
@@ -411,10 +416,24 @@ void loop()
         // réaliser la position
         switch (processus_bras)
         {
+        case 0:
+            if (processus0() == 1)
+            {
+                nucleo.write(2);
+            }
+            else
+            {
+                replique = 0
+            }
+            break;
         case 1:
             if (processus1() == 1)
             {
                 nucleo.write(2);
+            }
+            else
+            {
+                replique = 0
             }
             break;
         case 2:
@@ -430,10 +449,8 @@ void loop()
             }
             break;
         default:
-            processus0();
             break;
         }
-        processus_bras = 0;
 
         // sécurité
         delay_opti(1000);
