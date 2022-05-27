@@ -129,7 +129,7 @@ const uint16_t buffer_size = 32;
 const uint16_t baud_rate = 9600;
 
 // Dimension robot :
-const float entre_axe = 0.3824; // en m
+const float entre_axe = 0.308; // en m
 
 // Encoder :
 const uint16_t tick_encoder = 4096;

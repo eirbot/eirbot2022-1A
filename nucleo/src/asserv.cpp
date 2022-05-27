@@ -105,8 +105,7 @@ void asserv_periodique()
     {
         if (dest_alpha != 2742.)
         {
-            
-            float erreur_angle_robot = dest_alpha - ((encoder_angle_d - encoder_angle_g) / 2);
+            float erreur_angle_robot = dest_alpha - (roue_diametre/entre_axe)*((encoder_angle_d - encoder_angle_g)/2.);
             float consignef = PI(erreur_angle_robot, Kp, Ki);
             
             bool sens_d = 1;

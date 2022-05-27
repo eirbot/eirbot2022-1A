@@ -2,7 +2,6 @@
 #define securite_h
 
 void lecture_GP2(); // mise à jour de la variable dist[4] pour les capteur de distance
-void lecture_fdc(uint8_t numero);
 
 
 // fonctions d'interruption :

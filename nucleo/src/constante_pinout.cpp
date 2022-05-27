@@ -109,11 +109,6 @@ float cons;
 
 void init_globale()
 {
-    eps = 0.;
-    Kp = 1.;
-    Ki = 0.;
-    cons = 0.;
-
     fdc_avg = fdc_avant_gauche.read();
     fdc_avd = fdc_avant_droit.read();
     fdc_arg = fdc_arriere_gauche.read();
@@ -161,7 +156,7 @@ void init_globale()
 
     // config
     equipe = 'V';
-    capt_distance = 1; // par défaut on active les capteurs de distance
+    capt_distance = 0; // par défaut on active les capteurs de distance
     arbitre = 0;       // par défaut on ne se met pas en mode arbitre
     bras_etat = 0;     // indisponible par défaut
 
