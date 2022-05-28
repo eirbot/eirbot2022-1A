@@ -47,8 +47,8 @@ void calculs_encoder()
 
         if (dest_dist != 2742. || dest_alpha != 2742.)
         {
-            encoder_dist_d -= (float) (encoder_d * d_theta_rad * roue_diametre);
-            encoder_dist_g -= (float) (encoder_g * d_theta_rad * roue_diametre);
+            encoder_dist_d -= (float) ((encoder_d * d_theta_rad * roue_diametre) / coeff_correction);
+            encoder_dist_g -= (float) ((encoder_g * d_theta_rad * roue_diametre) / coeff_correction);
         }
         else
         {

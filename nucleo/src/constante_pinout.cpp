@@ -107,6 +107,13 @@ float Kp;
 float Ki;
 float cons;
 
+float erreur_angle_d;
+float erreur_angle_g;
+float erreur_dist_d;
+float erreur_dist_g;
+float erreur_dist;
+float erreur_angle;
+
 void init_globale()
 {
     fdc_avg = fdc_avant_gauche.read();

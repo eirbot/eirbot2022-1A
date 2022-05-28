@@ -6,17 +6,19 @@
 float PI(float erreur, float Kp, float Ki)
 {
     static float y_n1 = 0;
-    float y_n = y_n1 + erreur * (Kp + Ki * (float)periode_asserv);
+    static float erreur_n1 = 0;
+    float y_n = y_n1 + erreur * (Kp + Ki * (float)(periode_asserv*1e-6)) - erreur_n1*Kp;
 
     y_n1 = y_n;
-    return (uint8_t)y_n;
+    erreur_n1=erreur;
+    return y_n;
 }
 
 float P(float erreur, float Kp)
 {
     float y_n = Kp * erreur;
 
-    return (uint8_t)y_n;
+    return y_n;
 }
 
 float second_ordre(float x_n)
@@ -105,49 +107,58 @@ void asserv_periodique()
     {
         if (dest_alpha != 2742.)
         {
-            float erreur_angle_robot = dest_alpha - (roue_diametre/entre_axe)*((encoder_angle_d - encoder_angle_g)/2.);
-            float consignef = PI(erreur_angle_robot, Kp, Ki);
-            
+            erreur_angle = dest_alpha - (roue_diametre/entre_axe)*((encoder_angle_d - encoder_angle_g)/2.);
+            erreur_angle_d = dest_alpha/(roue_diametre/entre_axe) - encoder_angle_d; //(roue_diametre/entre_axe)*((encoder_angle_d - encoder_angle_g)/2.)
+            erreur_angle_g = dest_alpha/(roue_diametre/entre_axe) - encoder_angle_g;
+            float consignef_d = PI(erreur_angle_d, Kp, Ki);
+            float consignef_g = PI(erreur_angle_g, Kp, Ki);
+
             bool sens_d = 1;
             bool sens_g = 0;
-            if (consignef < 0.)
+            if (consignef_d < 0.)
             {
-                sens_g = 1;
                 sens_d = 0;
             }
+            if (consignef_g < 0.)
+            {
+                sens_g = 1;
+            }
 
-            uint8_t consigne_d = sature((1+eps)*fabs(consignef), 0, 10);
-            
-            uint8_t consigne_g = sature((1-eps)*fabs(consignef), 0, 10);
+            uint8_t consigne_d = sature(fabs(consignef_d), 0, 20);
+            uint8_t consigne_g = sature(fabs(consignef_g), 0, 20);
+            if ((consignef_d > eps) && (consigne_d == 1))
+            {
+                consigne_d = 2;
+            }
+            if ((consignef_g > eps) && (consigne_d == 1))
+            {
+                consigne_g = 2;
+            }
+            // uint8_t consigne_g = sature((1-eps)*fabs(consignef), 0, 10);
 
             roue_d(consigne_d, sens_d);
             roue_g(consigne_g, sens_g);
         }
 
-        // if (dest_dist != 2742.)
-        // {
-        //     float erreur_dist_d = dest_dist - (encoder_dist_d);
-        //     float consignef_d = C_dist_d * erreur_dist_d;
-        //     float erreur_dist_g = dest_dist - (encoder_dist_g);
-        //     float consignef_g = C_dist_g * erreur_dist_g;
+        if (dest_dist != 2742.)
+        {
+            float erreur_dist= dest_dist - (encoder_dist_g+encoder_dist_d)/2.;
+            float consignef = PI(erreur_dist, Kp, Ki);
 
-        //     bool sens_g = 1;
-        //     if (consignef_g < 0.)
-        //     {
-        //         sens_g = 0;
-        //     }
-        //     bool sens_d = 1;
-        //     if (consignef_d < 0.)
-        //     {
-        //         sens_d = 0;
-        //     }
+            bool sens_g = 1;
+            bool sens_d = 1;
+            if (consignef < 0.)
+            {
+                sens_g = 0;
+                sens_d = 0;
+            }
 
-        //     uint8_t consigne_d = sature(fabs(consignef_d), 0, 10);
-        //     uint8_t consigne_g = sature(fabs(consignef_g), 0, 10);
+            uint8_t consigne_d = sature(fabs(consignef), 0, 15);
+            uint8_t consigne_g = sature(fabs(consignef), 0, 15);
 
-        //     roue_d(consigne_d, sens_d);
-        //     roue_g(consigne_g, sens_g);
-        // }
+            roue_d(consigne_d, sens_d);
+            roue_g(consigne_g, sens_g);
+        }
     }
 }
 
