@@ -39,7 +39,7 @@
 
 // Liaison série Arduino : UART 1
 #define _bras_RX PA_10 // D2
-#define _bras_TX PA_9  // D8
+#define _bras_TX PA_9  // D8    
 
 // Liaison série Arduino : UART 3
 #define _afficheur_RX PC_11 // dernier droit [haut gauche]

@@ -85,71 +85,68 @@ int main()
     //***************** on attends le fdc avec la tirette *****************
     while (fdc_arg == 1)
     {
-        variable_glob_directe();
-        
+        // variable_glob_directe();
+        if (baton_parole_afficheur == 1)
+        {
+            printf("recopie afficheur faite");
+            envoie_afficheur(0, 1, 0, 0);
+        }
     }
 
     odometrie_traitement_periodique.attach_us(&odometrie_periodique, periode_odometrie);
     asserv_traitement_periodique.attach_us(&asserv_periodique, periode_asserv);
 
-    // while (chronometer.elapsed_time().count() < (int64_t)(30 * 1e6))
-    // {
-    //     printf("angle_d %3.2f angle_g %3.2f \t dist_d %3.2f  dist_g %3.2f \t c_d %2d c_g %2d\n", encoder_angle_d, encoder_angle_g, encoder_dist_d, encoder_dist_g, pwm_droit.read_pulsewitdth_us(), pwm_gauche.read_pulsewitdth_us());
-    // }
-    // dest_dist = 15.;
-
-    eps = 0.;
-    Kp = 1.;
-    Ki = 0.;
-    cons = 6.;
-
     chronometer.start();
-    // while (fdc_avd == 0 && fdc_avg == 0 && fdc_gal == 0)
-    // {
-    //     if (condition_dist == 1)
-    //     {
-    //         while (condition_dist == 1)
-    //         {
-    //             printf("Capteur de distance\n");
-    //             arret_moteur(); // arret des moteurs
-    //         }
-    //         wait_us(100e3);
-    //     }
-    //     roue_d((uint8_t)(cons), 1);
-    //     roue_g((uint8_t)(cons), 1);
+    printf("début\n");
+    // envoie_bras(1, 0, 0, 0, 0);
+    // wait_us(500e3);
+    // envoie_bras(0, 0, 0, 0, 0);
+    // wait_us(500e3);
 
-    //     printf("angle_d %3.2f angle_g %3.2f \t dist_d %3.2f  dist_g %3.2f \t c_d %2d c_g %2d \t d: %d \t g: %d\n", encoder_angle_d, encoder_angle_g, encoder_dist_d, encoder_dist_g, pwm_droit.read_pulsewitdth_us(), pwm_gauche.read_pulsewitdth_us(), fdc_avd, fdc_avg);
-    // }
-    // arret_moteur();
-    // envoie_bras(0, 3, 0, 0, 1); // processus pour choper le palais
-
-    // !****************************  bouton  ****************************!
-    asserv_arret = 0; // lance l'asserv
-
-    while (bouton == 0)
+    while (fdc_avd == 0 && fdc_avg == 0 && fdc_gal == 0)
     {
-
-        printf("angle_d %3.2f angle_g %3.2f \t erreur %3.3f \t c_d %2d c_g %2d \t d: %d \t g: %d\n", encoder_angle_d, encoder_angle_g, erreur_angle_d, pwm_droit.read_pulsewitdth_us(), pwm_gauche.read_pulsewitdth_us(), fdc_avd, fdc_arg);
+        if (condition_dist == 1)
+        {
+            while (condition_dist == 1)
+            {
+                printf("Capteur de distance\n");
+                arret_moteur(); // arret des moteurs
+            }
+            wait_us(100e3);
+        }
+        avancer_primitif(6);
+        //printf("angle_d %3.2f angle_g %3.2f \t dist_d %3.2f  dist_g %3.2f \t c_d %2d c_g %2d \t d: %d \t g: %d\n", encoder_angle_d, encoder_angle_g, encoder_dist_d, encoder_dist_g, pwm_droit.read_pulsewitdth_us(), pwm_gauche.read_pulsewitdth_us(), fdc_avd, fdc_avg);
     }
     arret_moteur();
+    envoie_bras(0, 3, 0, 0, 1); // processus pour choper le palais
 
-    // !****************************  bloque  ****************************!
-
-    while (1)
+    while (bras_etat == 0)
     {
+        // on attent
+        arret_moteur();
     }
-    envoie_bras(0, 3, 0, 0, 0); // processus pour choper le palais
 
     while (bras_etat == 0)
     {
         // le bras est occupé
-        arret_moteur();
+    }
+
+    while (fdc_ard == 0 && fdc_arg == 0)
+    {
         if (condition_dist == 1)
         {
-            envoie_bras(0, 0, 0, 0, 0); // arret bras
-            break;
+            while (condition_dist == 1)
+            {
+                printf("Capteur de distance\n");
+                arret_moteur(); // arret des moteurs
+            }
+            wait_us(100e3);
         }
+
+        reculer_primitif(6);
     }
+
+    // !****************************  bloque  ****************************!
 
     while (1)
     {
